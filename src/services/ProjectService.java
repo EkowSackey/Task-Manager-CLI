@@ -34,46 +34,54 @@ public class ProjectService {
 
         System.out.print("Enter your choice: ");
 
+        if (sc.hasNextInt()) {
+            int choice = sc.nextInt();
+            sc.nextLine();
 
-        int choice = sc.nextInt();
-        sc.nextLine();
 
+            switch (choice) {
 
-        switch (choice){
+                case 1: {
+                    viewAllProjects();
+                    break;
+                }
 
-            case 1: {
-                viewAllProjects();
-                break;
+                case 2: {
+                    viewSoftwareProjects();
+                    break;
+                }
+
+                case 3: {
+                    viewHardwareProjects();
+                    break;
+                }
+
+                case 4: {
+                    searchByRange();
+                    break;
+                }
+
+                case 5: {
+                    createSoftwareProject();
+                    break;
+                }
+                case 6: {
+                    createHardwareProject();
+                }
+
+                case 0: {
+                    Ui.init();
+                }
+
+                default: {
+                    System.out.println("Invalid Input! Try again.");
+                    init();
+                }
             }
-
-            case 2: {
-                viewSoftwareProjects();
-                break;
-            }
-
-            case 3: {
-                viewHardwareProjects();
-                break;
-            }
-
-            case 4: {
-                searchByRange();
-                break;
-            }
-
-            case 5: {
-                createSoftwareProject();
-                break;
-            }
-            case 6: {
-                createHardwareProject();
-            }
-
-            case 0: {
-                Ui.init();
-            }
-
-            default: {System.out.println("Invalid Input! Try again.");}
+        }else{
+            System.out.println("Please input a number!");
+            sc.nextLine();
+            init();
         }
 
     }
@@ -112,6 +120,7 @@ public class ProjectService {
 
         }else  {
             System.out.println("Invalid project ID! Try again.");
+            viewAllProjects();
 
         }
 
@@ -151,6 +160,7 @@ public class ProjectService {
         }
         else {
             System.out.println("Invalid project ID! Try again.");
+            viewSoftwareProjects();
 
         }
 
@@ -189,6 +199,7 @@ public class ProjectService {
         }
         else {
             System.out.println("Invalid project ID! Try again.");
+            viewSoftwareProjects();
 
         }
 
@@ -197,17 +208,17 @@ public class ProjectService {
 
     public static void searchByRange(){
         System.out.println("Input a VALID range");
-        System.out.print("Min: ");
+        System.out.print("Min: [MUST be a double. eg. 3500.00] ");
         double min = sc.nextDouble();
         sc.nextLine();
 
-        System.out.print("Max: ");
+        System.out.print("Max: [Must be a double. eg. 3500.00] ");
         double max = sc.nextDouble();
         sc.nextLine();
 
         if(min >= max){
             System.out.println("Invalid range!");
-            return;
+            searchByRange();
         }
         List<Project> budgetprjs = projects.getByBudgetRange(min, max);
 
@@ -244,6 +255,7 @@ public class ProjectService {
         }
         else {
             System.out.println("Invalid project ID! Try again.");
+            searchByRange();
 
         }
 
@@ -328,12 +340,13 @@ public class ProjectService {
         System.out.println("4. Back to main menu ");
 
         System.out.print("Enter a choice: ");
-        int choice = sc.nextInt();
-        sc.nextLine();
 
 
+        if (sc.hasNextInt()) {
+            int choice = sc.nextInt();
+            sc.nextLine();
 
-        switch (choice){
+            switch (choice){
             case 1: {
                 TaskService.createTask();
                 break;
@@ -359,6 +372,17 @@ public class ProjectService {
                 Ui.init();
                 break;
             }
+
+            default:{
+                System.out.println("Invalid choice! Try again.");
+                viewDetails(prjID);
+
+            }
+        }
+        }else {
+            System.out.println("Please input a number!");
+            sc.nextLine();
+            viewDetails(prjID);
         }
 
     }

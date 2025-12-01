@@ -25,26 +25,41 @@ public class Ui {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Enter your choice: ");
-        int choice = sc.nextInt();
 
 
-        switch (choice){
-            case 1: {
-                ProjectService.init();
-                break;
+        if (sc.hasNextInt()) {
+            int choice = sc.nextInt();
+            switch (choice) {
+                case 1: {
+                    ProjectService.init();
+                    break;
+                }
+
+                case 2: {
+                    TaskService.init();
+                    break;
+                }
+
+                case 3: {
+                    ReportService.init();
+                    break;
+                }
+
+                case 5: {
+                    System.out.println("Exiting program...");
+                    System.exit(0);
+                    break;
+                }
+
+                default: {
+                    System.out.println("Invalid Input! Try again.");
+                    init();
+                }
             }
-
-            case 2: {
-                TaskService.init();
-                break;
-            }
-
-            case 3: {
-                ReportService.init();
-                break;
-            }
-
-            default: {System.out.println("Invalid Input! Try again.");}
+        }else {
+            System.out.println("Please input a number.");
+            sc.nextLine();
+            init();
         }
 
 

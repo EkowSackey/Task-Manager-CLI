@@ -30,49 +30,54 @@ public class TaskService {
 
         System.out.print("Enter your choice: ");
 
+        if (sc.hasNextInt()) {
+            int choice = sc.nextInt();
+            sc.nextLine();
 
-        int choice = sc.nextInt();
-        sc.nextLine();
+
+            switch (choice) {
+
+                case 1: {
+                    viewAllTasks();
+                    break;
+                }
+
+                case 2: {
+                    createTask();
+                    break;
+                }
+
+                case 3: {
+                    System.out.println("Enter VALID a Task ID: ");
+                    String task = sc.nextLine();
+
+                    updateTask(task);
+                    break;
+                }
+
+                case 4: {
+                    System.out.println("Enter VALID a Task ID: ");
+                    String task = sc.nextLine();
+                    deleteTask(task);
+                    break;
+                }
+
+                case 0: {
+                    Ui.init();
+                    break;
+                }
 
 
-        switch (choice) {
-
-            case 1: {
-                viewAllTasks();
-                break;
+                default: {
+                    System.out.println("Invalid Input! Try again.");
+                    init();
+                    break;
+                }
             }
-
-            case 2: {
-                createTask();
-                break;
-            }
-
-            case 3: {
-                System.out.println("Enter VALID a Task ID: ");
-                String task = sc.nextLine();
-
-                updateTask(task);
-                break;
-            }
-
-            case 4: {
-                System.out.println("Enter VALID a Task ID: ");
-                String task = sc.nextLine();
-
-
-                deleteTask(task);
-                break;
-            }
-
-            case 0: {
-                Ui.init();
-                break;
-            }
-
-
-            default: {
-                System.out.println("Invalid Input! Try again.");
-            }
+        } else {
+            System.out.println("Please enter a number!");
+            sc.nextLine();
+            init();
         }
 
     }
@@ -107,6 +112,7 @@ public class TaskService {
             init();
         } else {
             System.out.println("Invalid Task ID! Try again.");
+            viewAllTasks();
 
         }
 
@@ -142,6 +148,7 @@ public class TaskService {
             }
             default: {
                 System.out.println("Invalid Input! Try again");
+                createTask();
             }
         }
 
@@ -174,6 +181,7 @@ public class TaskService {
 
             default: {
                 System.out.println("Invalid Input! Try again");
+                createTask();
             }
         }
 
@@ -216,6 +224,7 @@ public class TaskService {
 
             default: {
                 System.out.println("Invalid status! Try again");
+                updateTask(task.getID());
                 break;
             }
         }
@@ -239,6 +248,7 @@ public class TaskService {
             }
             default: {
                 System.out.println("Invalid priority! Try again.");
+                updateTask(task.getID());
                 break;
             }
         }
