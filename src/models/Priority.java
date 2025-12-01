@@ -1,4 +1,8 @@
 package models;
 
-public class Priority {
+public enum Priority {
+    LOW,
+    MEDIUM,
+    HIGH,
+    CRITICAL
 }

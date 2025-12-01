@@ -1,4 +1,7 @@
 package models;
 
-public class Status {
+public enum Status {
+    PENDING,
+    STARTED,
+    COMPLETED
 }
