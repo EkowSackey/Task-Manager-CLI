@@ -48,7 +48,7 @@ public class ReportService {
 
         System.out.println("_____________________________________________________________________________________________________");
         System.out.println("_____________________________________________________________________________________________________");
-        System.out.printf("AVERAGE COMPLETION:  %.2f%%", (sum/num)*100);
+        System.out.printf("AVERAGE COMPLETION:  %.2f%%", (sum/num));
         System.out.println("_____________________________________________________________________________________________________");
 
         System.out.println("\nEnter a VALID Project ID to view details (0 to go back): ");

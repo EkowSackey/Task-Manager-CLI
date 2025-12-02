@@ -54,4 +54,8 @@ public class UserService {
 
 
     }
+
+    public static void clearUser(){
+        u = null;
+    }
 }

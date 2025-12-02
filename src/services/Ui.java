@@ -7,21 +7,23 @@ import java.util.Scanner;
 
 public class Ui {
 
-    private static final User user = UserService.u;
-    private static final String _name = user.getUsername();
-    private static final Role _role = user.getRole();
+
 
 
 
     public static void init(){
 
-        String role = String.valueOf(_role);
+        User user = UserService.u;
+        String name = user.getUsername();
+        Role role = user.getRole();
+
+        String roleStr = String.valueOf(role);
 
         System.out.println("*=======================================*");
         System.out.println("||     PROJECT MANAGEMENT SYSTEM       ||");
         System.out.println("*=======================================*");
         System.out.println("\n");
-        System.out.printf("Current User: %s (%s) ", _name, role);
+        System.out.printf("Current User: %s (%s) ", name, roleStr);
         System.out.println("\n");
         System.out.println("________________*Main Menu*_______________");
         System.out.println("1. Manage Projects");
@@ -55,6 +57,7 @@ public class Ui {
                 }
 
                 case 4: {
+                    UserService.clearUser();
                     UserService.init();
                     break;
                 }
