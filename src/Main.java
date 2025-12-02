@@ -1,14 +1,15 @@
 import models.*;
 import services.Ui;
+import services.UserService;
 import utils.Autogen;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 void main() {
-//
+
 //    ProjectList projects = new ProjectList();
 //
-////    System.out.println(projects.getProjects());
+//   System.out.println(projects.getProjects());
 //    SoftwareProject sw1 = new SoftwareProject(Autogen.addProject(), "Alpha","Software Project", "a sw project", 5, 3500.00  );
 //    HardwareProject hw1 = new HardwareProject(Autogen.addProject(), "Gamma", "Hardware Project", "a hw project", 7, 4000.00);
 //    projects.addProject(sw1);
@@ -31,5 +32,10 @@ void main() {
 //   System.out.println("##############################");
 //   System.out.println(projects.getTasksByPriority(Priority.CRITICAL));
 
-    Ui.init();
+
+    UserService.seedUsers();
+    UserService.init();
+
+
+    //Ui.init();
 }

@@ -1,18 +1,27 @@
 package services;
 
+import models.Role;
+import models.User;
+
 import java.util.Scanner;
 
 public class Ui {
 
+    private static final User user = UserService.u;
+    private static final String _name = user.getUsername();
+    private static final Role _role = user.getRole();
+
+
+
     public static void init(){
-//        TODO: implement user logic
-        String user = "Ekow ";
-        String role = "ADMIN";
+
+        String role = String.valueOf(_role);
+
         System.out.println("*=======================================*");
         System.out.println("||     PROJECT MANAGEMENT SYSTEM       ||");
         System.out.println("*=======================================*");
         System.out.println("\n");
-        System.out.printf("Current User: %s (%s) ", user, role);
+        System.out.printf("Current User: %s (%s) ", _name, role);
         System.out.println("\n");
         System.out.println("________________*Main Menu*_______________");
         System.out.println("1. Manage Projects");
@@ -42,6 +51,11 @@ public class Ui {
 
                 case 3: {
                     ReportService.init();
+                    break;
+                }
+
+                case 4: {
+                    UserService.init();
                     break;
                 }
 
