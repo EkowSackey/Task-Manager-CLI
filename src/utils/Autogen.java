@@ -14,6 +14,6 @@ public class Autogen {
     public static String addTask(){
         taskID ++;
         return String.format("T%03d", taskID);
-    }
 
+    }
 }

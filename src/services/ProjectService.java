@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class ProjectService {
     public static final ProjectList projects = new ProjectList();
-    static int numberOfProjects = projects.getSize();
+
     static Scanner sc = new Scanner(System.in);
 
     public static void init(){
@@ -20,7 +20,7 @@ public class ProjectService {
         System.out.println("\n");
 
         System.out.println("_________________*Options*_______________");
-        System.out.printf("1. View All Projects (%d) \n", numberOfProjects);
+        System.out.printf("1. View All Projects (%d) \n", projects.getSize());
         System.out.println("2. Software Projects Only");
         System.out.println("3. Hardware Projects Only");
         System.out.println("4. Search by Budget Range");
@@ -92,6 +92,7 @@ public class ProjectService {
         System.out.println("ID     |        PROJECT NAME          |           TYPE            |            DESCRIPTION           | TEAM SIZE  |   BUDGET     ");
         System.out.println("___________________________________________________________________________________________________________________________________");
         List<Project> allProjects = projects.getProjects();
+        projects.getSize();
         List<String> ids = new ArrayList<>();
 
         for (Project p: allProjects){
