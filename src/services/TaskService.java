@@ -3,6 +3,7 @@ package services;
 import models.*;
 import utils.Autogen;
 import utils.Input;
+import utils.Printer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,7 @@ public class TaskService {
 
     public static void init() {
 
-        System.out.println("*=======================================*");
-        System.out.println("||           TASK CATALOG            ||");
-        System.out.println("*=======================================*");
-        System.out.println("\n");
+        Printer.printBanner("*TASK CATALOG*");
 
         System.out.println("_________________*Options*_______________");
         System.out.println("1. View All Tasks");
@@ -25,81 +23,57 @@ public class TaskService {
         System.out.println("3. Update a Task");
         System.out.println("4. Delete a Task");
         System.out.println("0. Back to main menu");
-
-
         System.out.println("\n");
 
+        int choice = Input.readInt("Enter your choice: " );
 
 
 
-            int choice = Input.readInt("Enter your choice: " );
+        switch (choice) {
 
-
-
-            switch (choice) {
-
-                case 1: {
-                    viewAllTasks();
-                    break;
-                }
-
-                case 2: {
-                    createTask();
-                    break;
-                }
-
-                case 3: {
-
-                    String task =Input.readString("Enter VALID a Task ID: ");
-
-                    updateTask(task);
-                    break;
-                }
-
-                case 4: {
-
-                    String task = Input.readString("Enter a Valid Task ID: ");
-                    deleteTask(task);
-                    break;
-                }
-
-                case 0: {
-                    Ui.init();
-                    break;
-                }
-
-
-                default: {
-                    System.out.println("Invalid Input! Try again.");
-                    init();
-                    break;
-                }
+            case 1: {
+                viewAllTasks();
+                break;
             }
+            case 2: {
+                createTask();
+                break;
+            }
+            case 3: {
+                String task =Input.readString("Enter VALID a Task ID: ");
+                updateTask(task);
+                break;
+            }
+            case 4: {
+                String task = Input.readString("Enter a Valid Task ID: ");
+                deleteTask(task);
+                break;
+            }
+            case 0: {
+                Ui.init();
+                break;
+            }
+            default: {
+                System.out.println("Invalid Input! Try again.");
+                init();
+                break;
+            }
+        }
 
 
     }
 
     public static void viewAllTasks() {
-        System.out.println("___________*ALL Tasks*______________");
-        System.out.println("_____________________________________________________________________________________________________");
-        System.out.println("ID     |        TASK NAME         |     ASSIGNED PROJECT ID    |      STATUS       |   PRIORITY     ");
-        System.out.println("_____________________________________________________________________________________________________");
+        Printer.printBanner("*ALL TASKS*");
+
         List<Task> allTasks = projects.getAllTasks();
         List<String> ids = new ArrayList<>();
 
         for (Task t : allTasks) {
             ids.add(t.getID());
-            System.out.printf("%s       |", t.getID());
-            System.out.printf("  %s            |", t.getName());
-            System.out.printf("  %s            |", t.getAssignedProjectID());
-            System.out.printf("  %s            |", t.getStatus());
-            System.out.printf("  %s            |", t.getPriority());
-            System.out.println("\n");
-
-
         }
 
-
+        Printer.printTaskTable(allTasks);
 
         String choice = Input.readString("Enter a Valid Task ID to update status or priority (0 to go back): ");
 
@@ -110,9 +84,7 @@ public class TaskService {
         } else {
             System.out.println("Invalid Task ID! Try again.");
             viewAllTasks();
-
         }
-
 
     }
 
@@ -132,11 +104,10 @@ public class TaskService {
     }
 
     public static void updateTask(String choice) {
-        System.out.printf("__________*Updating  Task: %s*_____________\n", choice);
+
+        Printer.printBanner(String.format("*Updating  Task: %s*", choice));
         Task task = projects.getTaskByID(choice);
         System.out.println(task);
-        System.out.println("+==========================================+\n\n");
-
 
         Status status = Input.readStatus();
         Priority priority = Input.readPriority();
@@ -145,7 +116,6 @@ public class TaskService {
         task.setStatus(status);
 
         ProjectService.viewDetails(task.getAssignedProjectID());
-
 
     }
 

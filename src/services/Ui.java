@@ -3,14 +3,9 @@ package services;
 import models.Role;
 import models.User;
 import utils.Input;
-
-
+import utils.Printer;
 
 public class Ui {
-
-
-
-
 
     public static void init(){
 
@@ -20,10 +15,7 @@ public class Ui {
 
         String roleStr = String.valueOf(role);
 
-        System.out.println("*=======================================*");
-        System.out.println("||     PROJECT MANAGEMENT SYSTEM       ||");
-        System.out.println("*=======================================*");
-        System.out.println("\n");
+        Printer.printBanner("PROJECT MANAGEMENT SYSTEM");
         System.out.printf("Current User: %s (%s) ", name, roleStr);
         System.out.println("\n");
         System.out.println("________________*Main Menu*_______________");
@@ -33,52 +25,34 @@ public class Ui {
         System.out.println("4. Switch User");
         System.out.println("5. Exit");
 
-
-
-
-
-
-
-
-            int choice = Input.readInt("Enter your choice: ");
-            switch (choice) {
-                case 1: {
-                    ProjectService.init();
-                    break;
-                }
-
-                case 2: {
-                    TaskService.init();
-                    break;
-                }
-
-                case 3: {
-                    ReportService.init();
-                    break;
-                }
-
-                case 4: {
-                    UserService.clearUser();
-                    UserService.init();
-                    break;
-                }
-
-                case 5: {
-                    System.out.println("Exiting program...");
-                    System.exit(0);
-                    break;
-                }
-
-                default: {
-                    System.out.println("Invalid Input! Try again.");
-                    init();
-                }
+        int choice = Input.readInt("Enter your choice: ");
+        switch (choice) {
+            case 1: {
+                ProjectService.init();
+                break;
             }
-
-
-
-
-
-
+            case 2: {
+                TaskService.init();
+                break;
+            }
+            case 3: {
+                ReportService.init();
+                break;
+            }
+            case 4: {
+                UserService.clearUser();
+                UserService.init();
+                break;
+            }
+            case 5: {
+                System.out.println("Exiting program...");
+                System.exit(0);
+                break;
+            }
+            default: {
+                System.out.println("Invalid Input! Try again.");
+                init();
+            }
+        }
     }
 }

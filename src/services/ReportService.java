@@ -4,6 +4,7 @@ import models.Project;
 import models.Status;
 import models.Task;
 import utils.Input;
+import utils.Printer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +17,7 @@ public class ReportService {
         List<Project> projects = ProjectService.projects.getProjects();
 
 
-
-        System.out.println("*=======================================*");
-        System.out.println("||       PROJECT STATUS REPORT         ||");
-        System.out.println("*=======================================*");
-        System.out.println("\n\n");
+        Printer.printBanner("*PROJECT STATUS*");
 
         System.out.println("_____________________________________________________________________________________________________");
         System.out.println("PROJECT ID     |        PROJECT NAME         |     TASKS    |      COMPLETED       |   PROGRESS     ");
