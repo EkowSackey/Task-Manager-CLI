@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ProjectList {
@@ -31,7 +32,7 @@ public class ProjectList {
             }
 
         }
-        System.out.printf("Project with ID %d not found!", ID);
+        System.out.printf("Project with ID %s not found!", ID);
         return null;
 
     }
@@ -60,7 +61,7 @@ public class ProjectList {
 
         if (filtered.isEmpty()) {
             System.out.println("No Projects Found");
-            return null;
+            return Collections.emptyList();
         }
         return filtered;
     }

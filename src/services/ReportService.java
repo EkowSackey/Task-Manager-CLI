@@ -3,13 +3,14 @@ package services;
 import models.Project;
 import models.Status;
 import models.Task;
+import utils.Input;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 public class ReportService {
-    static Scanner sc = new Scanner(System.in);
+
 
     public static void init(){
         List<Project> projects = ProjectService.projects.getProjects();
@@ -51,8 +52,8 @@ public class ReportService {
         System.out.printf("AVERAGE COMPLETION:  %.2f%%", (sum/num));
         System.out.println("_____________________________________________________________________________________________________");
 
-        System.out.println("\nEnter a VALID Project ID to view details (0 to go back): ");
-        String choice = sc.nextLine();
+
+        String choice = Input.readString("Enter a VALID Project ID to view details (0 to go back): ");
 
         if (ids.contains(choice)){
             ProjectService.viewDetails(choice);

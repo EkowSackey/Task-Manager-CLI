@@ -2,8 +2,9 @@ package services;
 
 import models.Role;
 import models.User;
+import utils.Input;
 
-import java.util.Scanner;
+
 
 public class Ui {
 
@@ -33,13 +34,13 @@ public class Ui {
         System.out.println("5. Exit");
 
 
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Enter your choice: ");
 
 
-        if (sc.hasNextInt()) {
-            int choice = sc.nextInt();
+
+
+
+
+            int choice = Input.readInt("Enter your choice: ");
             switch (choice) {
                 case 1: {
                     ProjectService.init();
@@ -73,11 +74,7 @@ public class Ui {
                     init();
                 }
             }
-        }else {
-            System.out.println("Please input a number.");
-            sc.nextLine();
-            init();
-        }
+
 
 
 

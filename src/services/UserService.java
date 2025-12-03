@@ -3,12 +3,13 @@ package services;
 import models.Role;
 import models.User;
 import models.UserList;
+import utils.Input;
 
-import java.util.Scanner;
+
 
 public class UserService {
     public static final UserList users = new UserList();
-    static Scanner sc = new Scanner(System.in);
+
     public static User u = null;
 
     public static void seedUsers(){
@@ -22,16 +23,16 @@ public class UserService {
     }
 
     public static void init(){
-        System.out.println("Input username: ");
-        String username = sc.nextLine();
+
+        String username = Input.readString("Input a username: ");
 
         User user = users.findByUsername(username);
 
-        System.out.println("Input PIN: ");
 
-        if( sc.hasNextInt()){
-            int pin = sc.nextInt();
-            sc.nextLine();
+
+
+            int pin = Input.readInt("Input PIN: ");
+
 
             if (user.validate(user.getUsername(), pin)){
                 System.out.printf("Welcome %s. \n", user.getUsername());
@@ -44,11 +45,8 @@ public class UserService {
             }
 
 
-        }
-        else{
-            System.out.println("Please input a numeric pin.");
-            sc.nextLine();
-        }
+
+
 
 
 

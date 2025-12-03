@@ -2,15 +2,15 @@ package services;
 
 import models.*;
 import utils.Autogen;
+import utils.Input;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class ProjectService {
     public static final ProjectList projects = new ProjectList();
 
-    static Scanner sc = new Scanner(System.in);
+
 
     public static void init(){
 
@@ -32,11 +32,11 @@ public class ProjectService {
 
         System.out.println("\n");
 
-        System.out.print("Enter your choice: ");
 
-        if (sc.hasNextInt()) {
-            int choice = sc.nextInt();
-            sc.nextLine();
+
+
+            int choice = Input.readInt("Enter your choice: ");
+
 
 
             switch (choice) {
@@ -78,11 +78,7 @@ public class ProjectService {
                     init();
                 }
             }
-        }else{
-            System.out.println("Please input a number!");
-            sc.nextLine();
-            init();
-        }
+
 
     }
 
@@ -110,8 +106,8 @@ public class ProjectService {
 
 
 
-        System.out.println("\nEnter a VALID project ID to view details (0 to go back): ");
-        String choice = sc.nextLine();
+
+        String choice = Input.readString("\nEnter a VALID project ID to view details (0 to go back): ");
 
         if (ids.contains(choice)){
             viewDetails(choice);
@@ -150,8 +146,8 @@ public class ProjectService {
 
 
 
-        System.out.println("\nEnter a VALID project ID to view details (0 to go back): ");
-        String choice = sc.nextLine();
+
+        String choice = Input.readString("\nEnter a VALID project ID to view details (0 to go back): ");
 
         if (ids.contains(choice)){
             viewDetails(choice);
@@ -189,8 +185,8 @@ public class ProjectService {
 
 
 
-        System.out.println("\nEnter a VALID project ID to view details (0 to go back): ");
-        String choice = sc.nextLine();
+
+        String choice = Input.readString("\nEnter a VALID project ID to view details (0 to go back): ");
 
         if (ids.contains(choice)){
             viewDetails(choice);
@@ -209,13 +205,10 @@ public class ProjectService {
 
     public static void searchByRange(){
         System.out.println("Input a VALID range");
-        System.out.print("Min: [MUST be a double. eg. 3500.00] ");
-        double min = sc.nextDouble();
-        sc.nextLine();
 
-        System.out.print("Max: [Must be a double. eg. 3500.00] ");
-        double max = sc.nextDouble();
-        sc.nextLine();
+        double min = Input.readDouble("Min: [Must be a decimal eg. 3500.00]");
+        double max = Input.readDouble("Max: [Must be a decimal eg. 3500.00]");
+
 
         if(min >= max){
             System.out.println("Invalid range!");
@@ -244,8 +237,8 @@ public class ProjectService {
 
 
 
-        System.out.println("\nEnter a VALID project ID to view details (0 to go back): ");
-        String choice = sc.nextLine();
+
+        String choice =Input.readString("Enter a VALID project ID to view details (0 to go back): ");
 
         if (ids.contains(choice)){
             viewDetails(choice);
@@ -264,16 +257,15 @@ public class ProjectService {
 
     public static void createSoftwareProject(){
         System.out.println("__________*Creating a Software project*_____________\n");
-        System.out.print("Enter a name: ");
-        String name = sc.nextLine();
+
+        String name = Input.readString("Enter a name: ");
         System.out.print("Enter a short description: ");
-        String description = sc.nextLine();
-        System.out.print("Enter a team size: ");
-        int teamSize = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Enter a budget (eg. 3500.00): ");
-        double budget = sc.nextDouble();
-        sc.nextLine();
+        String description = Input.readString("Enter a short description: ");
+        int teamSize = Input.readInt("Enter a team size: ");
+
+
+        double budget = Input.readDouble("Enter a budget (eg. 3500.00): ");
+
         String type = "Software Project";
 
         SoftwareProject prj = new SoftwareProject(Autogen.addProject(), name, type, description, teamSize, budget);
@@ -289,16 +281,13 @@ public class ProjectService {
 
     public static void createHardwareProject(){
         System.out.println("__________*Creating a Hardware project*_____________\n");
-        System.out.print("Enter a name: ");
-        String name = sc.nextLine();
-        System.out.print("Enter a short description: ");
-        String description = sc.nextLine();
-        System.out.print("Enter a team size: ");
-        int teamSize = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Enter a budget (eg. 3500.00): ");
-        double budget = sc.nextDouble();
-        sc.nextLine();
+
+        String name = Input.readString("Enter a name: ");
+        String description = Input.readString("Enter a short description: ");
+
+        int teamSize = Input.readInt("Enter a team size: ");
+        double budget = Input.readDouble("Enter a budget: ");
+
         String type = "Hardware Project";
 
         Project prj = new HardwareProject(Autogen.addProject(), name, type, description, teamSize, budget);
@@ -340,12 +329,12 @@ public class ProjectService {
         System.out.println("3. Remove  Task  ");
         System.out.println("4. Back to main menu ");
 
-        System.out.print("Enter a choice: ");
 
 
-        if (sc.hasNextInt()) {
-            int choice = sc.nextInt();
-            sc.nextLine();
+
+
+            int choice = Input.readInt("Enter a choice: ");
+
 
             switch (choice){
             case 1: {
@@ -354,8 +343,8 @@ public class ProjectService {
             }
 
             case 2: {
-                System.out.print("Input a VALID task ID to update: ");
-                String taskID = sc.nextLine();
+
+                String taskID = Input.readString("Enter a VALID task ID to update status and priority: ");
 
                 TaskService.updateTask(taskID);
                 break;
@@ -363,7 +352,7 @@ public class ProjectService {
 
             case 3: {
                 System.out.print("Input a VALID Task ID to delete: ");
-                String taskID = sc.nextLine();
+                String taskID = Input.readString("Enter a VALID Task ID to delete: ");
 
                 TaskService.deleteTask(taskID);
                 break;
@@ -380,11 +369,7 @@ public class ProjectService {
 
             }
         }
-        }else {
-            System.out.println("Please input a number!");
-            sc.nextLine();
-            viewDetails(prjID);
-        }
+
 
     }
 

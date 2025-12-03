@@ -2,13 +2,14 @@ package services;
 
 import models.*;
 import utils.Autogen;
+import utils.Input;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 public class TaskService {
-    static Scanner sc = new Scanner(System.in);
+
     static ProjectList projects = ProjectService.projects;
 
     public static void init() {
@@ -28,11 +29,11 @@ public class TaskService {
 
         System.out.println("\n");
 
-        System.out.print("Enter your choice: ");
 
-        if (sc.hasNextInt()) {
-            int choice = sc.nextInt();
-            sc.nextLine();
+
+
+            int choice = Input.readInt("Enter your choice: " );
+
 
 
             switch (choice) {
@@ -48,16 +49,16 @@ public class TaskService {
                 }
 
                 case 3: {
-                    System.out.println("Enter VALID a Task ID: ");
-                    String task = sc.nextLine();
+
+                    String task =Input.readString("Enter VALID a Task ID: ");
 
                     updateTask(task);
                     break;
                 }
 
                 case 4: {
-                    System.out.println("Enter VALID a Task ID: ");
-                    String task = sc.nextLine();
+
+                    String task = Input.readString("Enter a Valid Task ID: ");
                     deleteTask(task);
                     break;
                 }
@@ -74,11 +75,7 @@ public class TaskService {
                     break;
                 }
             }
-        } else {
-            System.out.println("Please enter a number!");
-            sc.nextLine();
-            init();
-        }
+
 
     }
 
@@ -103,8 +100,8 @@ public class TaskService {
         }
 
 
-        System.out.println("\nEnter a VALID task ID to update status or priority (0 to go back): ");
-        String choice = sc.nextLine();
+
+        String choice = Input.readString("Enter a Valid Task ID to update status or priority (0 to go back): ");
 
         if (ids.contains(choice)) {
             updateTask(choice);
@@ -120,71 +117,11 @@ public class TaskService {
     }
 
     public static void createTask() {
-        System.out.println("Enter task name: ");
-        String name = sc.nextLine();
 
-        System.out.println("Enter assigned project ID [MUST be a valid Project ID]: ");
-        String assigned = sc.nextLine();
-
-        System.out.println("Enter initial  status [MUST be one of {Completed, Pending, Started}]: ");
-        String inStatus = sc.nextLine();
-        Status status = null;
-
-        switch (inStatus) {
-            case "Completed": {
-                status = Status.COMPLETED;
-                break;
-
-            }
-            case "Pending": {
-                status = Status.PENDING;
-                break;
-
-            }
-            case "Started": {
-                status = Status.STARTED;
-                break;
-
-            }
-            default: {
-                System.out.println("Invalid Input! Try again");
-                createTask();
-            }
-        }
-
-
-        System.out.println("Enter initial priority [MUST be one of {Critical, High, Medium, Low}]: ");
-        String inPriority = sc.nextLine();
-        Priority priority = null;
-
-        switch (inPriority) {
-            case "Critical": {
-                priority = Priority.CRITICAL;
-                break;
-
-            }
-            case "High": {
-                priority = Priority.HIGH;
-                break;
-
-            }
-            case "Medium": {
-                priority = Priority.MEDIUM;
-                break;
-
-            }
-            case "Low": {
-                priority = Priority.LOW;
-                break;
-
-            }
-
-            default: {
-                System.out.println("Invalid Input! Try again");
-                createTask();
-            }
-        }
-
+        String name = Input.readString("Enter a task name: ");
+        String assigned = Input.readString("Enter assigned project ID [Must be a valid Project ID]: ");
+        Status status = Input.readStatus();
+        Priority priority = Input.readPriority();
 
         Task task = new Task(Autogen.addTask(), assigned, name, status, priority);
         Project prj = ProjectService.projects.getByID(assigned);
@@ -201,57 +138,11 @@ public class TaskService {
         System.out.println("+==========================================+\n\n");
 
 
-        System.out.println("Enter new status [MUST be one of {Completed, Pending, Started}]: ");
-        String status = sc.nextLine();
+        Status status = Input.readStatus();
+        Priority priority = Input.readPriority();
 
-        System.out.println("Enter new priority [MUST be one of {Critical, High, Medium, Low}]: ");
-        String priority = sc.nextLine();
-
-
-        switch (status) {
-            case "Completed": {
-                task.setStatus(Status.COMPLETED);
-                break;
-            }
-            case "Pending": {
-                task.setStatus(Status.PENDING);
-                break;
-            }
-            case "Started": {
-                task.setStatus(Status.STARTED);
-                break;
-            }
-
-            default: {
-                System.out.println("Invalid status! Try again");
-                updateTask(task.getID());
-                break;
-            }
-        }
-
-        switch (priority) {
-            case "Critical": {
-                task.setPriority(Priority.CRITICAL);
-                break;
-            }
-            case "High": {
-                task.setPriority(Priority.HIGH);
-                break;
-            }
-            case "Medium": {
-                task.setPriority(Priority.MEDIUM);
-                break;
-            }
-            case "Low": {
-                task.setPriority(Priority.LOW);
-                break;
-            }
-            default: {
-                System.out.println("Invalid priority! Try again.");
-                updateTask(task.getID());
-                break;
-            }
-        }
+        task.setPriority(priority);
+        task.setStatus(status);
 
         ProjectService.viewDetails(task.getAssignedProjectID());
 
@@ -267,5 +158,5 @@ public class TaskService {
         ProjectService.viewDetails(p.getID());
     }
 
-    //public static void viewProjectTasks(String prjID){}
+
 }
