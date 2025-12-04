@@ -1,5 +1,6 @@
 package services;
 
+import exceptions.UserNotFoundException;
 import models.Role;
 import models.User;
 import models.UserList;
@@ -20,19 +21,28 @@ public class UserService {
 
     public static void init(){
 
-        String username = Input.readString("Input a username: ");
+        while (true){
+            String username = Input.readString("Input a username: ");
 
-        User user = users.findByUsername(username);
+            User user = null;
+            try {
+                user = users.findByUsername(username);
+            } catch (UserNotFoundException e) {
+                System.out.println(e.getMessage());
+                System.out.println("Try again!");
+                continue;
+            }
 
-        int pin = Input.readInt("Input PIN: ");
-        if (user.validate(user.getUsername(), pin)){
-            System.out.printf("Welcome %s. \n", user.getUsername());
-            u = user;
-            Ui.init();
-        }
-        else{
-            System.out.println("Invalid credentials!");
-            init();
+            int pin = Input.readInt("Input PIN: ");
+            if (user.validate(user.getUsername(), pin)) {
+                System.out.printf("Welcome %s. \n", user.getUsername());
+                u = user;
+                Ui.init();
+                break;
+            } else {
+                System.out.println("Invalid credentials! Try again.\n\n");
+
+            }
         }
 
     }

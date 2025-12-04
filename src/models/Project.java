@@ -22,8 +22,6 @@ public abstract class Project {
         this.budget = budget;
     }
 
-
-
 //    getters
     public String getID() {return this.ID;}
     public  String getName(){return this.name;}
@@ -34,7 +32,7 @@ public abstract class Project {
 
 //    setters
     public void setName(String name){this.name = name;};
-//    public void setID(String ID){this.ID = ID;};
+    public void setID(String ID){this.ID = ID;};
     public void setType(String type){this.type = type;};
     public void setDescription(String description){this.description = description;};
     public void setTeamSize(int teamSize){this.teamSize = teamSize;};

@@ -1,5 +1,7 @@
 package models;
 
+import exceptions.ProjectNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,8 +34,8 @@ public class ProjectList {
             }
 
         }
-        System.out.printf("Project with ID %s not found!", ID);
-        return null;
+
+        throw new ProjectNotFoundException("Project with ID " + ID + " not found!");
 
     }
 

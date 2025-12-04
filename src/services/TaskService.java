@@ -1,5 +1,6 @@
 package services;
 
+import exceptions.ProjectNotFoundException;
 import models.*;
 import utils.Autogen;
 import utils.Input;
@@ -90,17 +91,26 @@ public class TaskService {
 
     public static void createTask() {
 
-        String name = Input.readString("Enter a task name: ");
-        String assigned = Input.readString("Enter assigned project ID [Must be a valid Project ID]: ");
-        Status status = Input.readStatus();
-        Priority priority = Input.readPriority();
+        while (true){
+            String name = Input.readString("Enter a task name: ");
+            String assigned = Input.readString("Enter assigned project ID [Must be a valid Project ID]: ");
+            Status status = Input.readStatus();
+            Priority priority = Input.readPriority();
 
-        Task task = new Task(Autogen.addTask(), assigned, name, status, priority);
-        Project prj = ProjectService.projects.getByID(assigned);
-        prj.addTask(task);
+            Task task = new Task(Autogen.addTask(), assigned, name, status, priority);
 
-        System.out.println("Task created Successfully! ");
-        ProjectService.viewDetails(assigned);
+            try {
+                Project prj = ProjectService.projects.getByID(assigned);
+                prj.addTask(task);
+                System.out.println("Task created Successfully! ");
+                ProjectService.viewDetails(assigned);
+                break;
+            } catch (ProjectNotFoundException e) {
+                System.out.println(e.getMessage());
+                System.out.println("Please restart with a valid project ID\n\n");
+            }
+
+        }
     }
 
     public static void updateTask(String choice) {

@@ -1,5 +1,7 @@
 package models;
 
+import exceptions.UserNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +28,6 @@ public class UserList {
                 return u;
             }
         }
-        System.out.printf("User with username %s not found", username);
-
-        return null;
+        throw new UserNotFoundException("User with username " + username + " not found");
     }
 }
