@@ -109,7 +109,6 @@ public class ProjectService {
         else {
             System.out.println("Invalid project ID! Try again.");
             viewSoftwareProjects();
-
         }
 
     }
@@ -251,34 +250,32 @@ public class ProjectService {
         System.out.println("4. Back to main menu ");
 
         int choice = Input.readInt("Enter a choice: ");
-        switch (choice){case 1: {
-            TaskService.createTask();
-            break;
-        }
-        case 2: {
-            String taskID = Input.readString("Enter a VALID task ID to update status and priority: ");
-            TaskService.updateTask(taskID);
-            break;
-        }
-        case 3: {
-            System.out.print("Input a VALID Task ID to delete: ");
-            String taskID = Input.readString("Enter a VALID Task ID to delete: ");
-            TaskService.deleteTask(taskID);
-            break;
-        }
-        case 4: {
-            Ui.init();
-            break;
-        }
-        default:{
-            System.out.println("Invalid choice! Try again.");
-            viewDetails(prjID);
-        }
+        switch (choice){
+            case 1: {
+                TaskService.createTask();
+                break;
+            }
+            case 2: {
+                String taskID = Input.readString("Enter a VALID task ID to update status and priority: ");
+                TaskService.updateTask(taskID);
+                break;
+            }
+            case 3: {
+                System.out.print("Input a VALID Task ID to delete: ");
+                String taskID = Input.readString("Enter a VALID Task ID to delete: ");
+                TaskService.deleteTask(taskID);
+                break;
+            }
+            case 0: {
+                Ui.init();
+                break;
+            }
+            default:{
+                System.out.println("Invalid choice! Try again.");
+                viewDetails(prjID);
+            }
         }
 
     }
-
-
-
 
 }

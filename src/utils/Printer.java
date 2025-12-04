@@ -1,8 +1,6 @@
 package utils;
 
 import models.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Printer {
@@ -153,6 +151,14 @@ public class Printer {
         System.out.println("________________________________________________________________________________________________________________________");
         System.out.println(centerText(String.format(GREEN + "AVERAGE COMPLETION:  %.2f%%" + RESET, average), 100));
         System.out.println("________________________________________________________________________________________________________________________");
+    }
+
+    public static void printOptions(String[] options){
+        int i = 0;
+        for (String o : options){
+            i++;
+            System.out.println(i+". " + o);
+        }
     }
 
 //TODO: fix new line bug
