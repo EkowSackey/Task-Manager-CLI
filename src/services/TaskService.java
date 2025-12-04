@@ -4,6 +4,7 @@ import exceptions.ProjectNotFoundException;
 import models.*;
 import utils.Autogen;
 import utils.Input;
+import utils.Menus;
 import utils.Printer;
 
 import java.util.ArrayList;
@@ -17,51 +18,7 @@ public class TaskService {
     public static void init() {
 
         Printer.printBanner("*TASK CATALOG*");
-
-        System.out.println("_________________*Options*_______________");
-        System.out.println("1. View All Tasks");
-        System.out.println("2. Create a New  Task");
-        System.out.println("3. Update a Task");
-        System.out.println("4. Delete a Task");
-        System.out.println("0. Back to main menu");
-        System.out.println("\n");
-
-        int choice = Input.readInt("Enter your choice: " );
-
-
-
-        switch (choice) {
-
-            case 1: {
-                viewAllTasks();
-                break;
-            }
-            case 2: {
-                createTask();
-                break;
-            }
-            case 3: {
-                String task =Input.readString("Enter VALID a Task ID: ");
-                updateTask(task);
-                break;
-            }
-            case 4: {
-                String task = Input.readString("Enter a Valid Task ID: ");
-                deleteTask(task);
-                break;
-            }
-            case 0: {
-                Ui.init();
-                break;
-            }
-            default: {
-                System.out.println("Invalid Input! Try again.");
-                init();
-                break;
-            }
-        }
-
-
+        Menus.taskCatalog();
     }
 
     public static void viewAllTasks() {
@@ -75,17 +32,7 @@ public class TaskService {
         }
 
         Printer.printTaskTable(allTasks);
-
-        String choice = Input.readString("Enter a Valid Task ID to update status or priority (0 to go back): ");
-
-        if (ids.contains(choice)) {
-            updateTask(choice);
-        } else if (choice.equals("0")) {
-            init();
-        } else {
-            System.out.println("Invalid Task ID! Try again.");
-            viewAllTasks();
-        }
+        Menus.idPicker("task", ids);
 
     }
 

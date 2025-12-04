@@ -18,6 +18,7 @@ public class Menus {
     }
 
     public static void projectCatalog(){
+        System.out.println("_________________*Options*_______________");
         String[] options = {"View all Projects", "View Software Projects only", "View Hardware Projects only", "Search by Budget", "Create a Software Project", "Create a Hardware Project"};
         Printer.printOptions(options);
         System.out.println("O. Back to Main Menu");
@@ -26,6 +27,7 @@ public class Menus {
     }
 
     public static void taskCatalog(){
+        System.out.println("_________________*Options*_______________");
         String[] options = {"View All Tasks", "Create a new Task", "Update a Task", "Delete a Task"};
         Printer.printOptions(options);
         System.out.println("0.Back to Main Menu");
@@ -35,6 +37,8 @@ public class Menus {
 
     public static void taskSubMenu(String ID){
         projectID = ID;
+
+        System.out.println("_________________*Options*_______________");
         String[] options = {"Add a new Task", "Update a task", "Remove Task"};
         Printer.printOptions(options);
         System.out.println("0. Back to Main Menu");
@@ -71,7 +75,7 @@ public class Menus {
                     }
                     default: {
                         System.out.println("Invalid Input! Try again.");
-                        Ui.init();
+                        mainMenu();
                         break;
                     }
                 }
@@ -110,7 +114,7 @@ public class Menus {
                     }
                     default: {
                         System.out.println("Invalid Input! Try again.");
-                        ProjectService.init();
+                        projectCatalog();
                         break;
                     }
                 }
@@ -144,7 +148,7 @@ public class Menus {
                     }
                     default: {
                         System.out.println("Invalid Input! Try again.");
-                        TaskService.init();
+                        taskCatalog();
                         break;
                     }
                 }
@@ -175,6 +179,7 @@ public class Menus {
                     default:{
                         System.out.println("Invalid choice! Try again.");
                         ProjectService.viewDetails(projectID);
+                        break;
                     }
                 }
                 break;
@@ -189,7 +194,7 @@ public class Menus {
 
     }
 
-    private static void idPicker(String type, List<String> ids){
+    public static void idPicker(String type, List<String> ids){
         String choice;
         if (type.equals("project")){
             choice = Input.readString("\nEnter a VALID project ID to view details (0 to go back): ");
@@ -219,14 +224,6 @@ public class Menus {
             }
         }
 
-    }
-
-
-    public static void main(String[] args){
-        Menus.mainMenu();
-        Menus.projectCatalog();
-        Menus.taskCatalog();
-//        Menus.taskSubMenu();
     }
 
 }
