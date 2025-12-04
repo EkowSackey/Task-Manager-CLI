@@ -2,6 +2,7 @@ package utils;
 
 import models.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Printer {
@@ -10,10 +11,8 @@ public class Printer {
     public static final String GREEN = "\u001B[32m";
     public static final String YELLOW = "\u001B[33m";
     public static final String BLUE = "\u001B[34m";
-
     private static final int WIDTH = 20;
     private static final int LARGE = 40;
-
 
     public static void printBanner(String text){
 
@@ -83,8 +82,6 @@ public class Printer {
         System.out.print(centerText("PRIORITY", WIDTH) + "\n");
         System.out.println("_____________________________________________________________________________________________________________________________________________________________________");
 
-
-
         for (Project p : projects) {
 
             System.out.print(centerText(String.format(YELLOW + "%s" + RESET, p.getID()), WIDTH));
@@ -100,7 +97,6 @@ public class Printer {
             System.out.print(centerText(String.format("$%.2f", p.getBudget()), WIDTH));
             System.out.println("\n");
 
-
         }
 
         if (projects.isEmpty()){
@@ -108,6 +104,55 @@ public class Printer {
             System.out.println("\n\n");
         }
 
+    }
+
+    public static void printReport(List<Project> projects){
+        System.out.println("________________________________________________________________________________________________________________________");
+        System.out.print(centerText(YELLOW + "PROJECT ID" + RESET, WIDTH));
+        System.out.print("|");
+        System.out.print(centerText("PROJECT NAME", LARGE));
+        System.out.print("|");
+        System.out.print(centerText("TASKS", WIDTH));
+        System.out.print("|");
+        System.out.print(centerText("COMPLETED", WIDTH));
+        System.out.print("|");
+        System.out.print(centerText("PROGRESS", WIDTH) + "\n");
+        System.out.println("________________________________________________________________________________________________________________________");
+
+        double sum = 0.0;
+        int num = 0;
+
+        for (Project p: projects ){
+            String projectID = p.getID();
+            String name = p.getName();
+            List<Task> tasks = p.getTasks();
+            int numberOfTask = tasks.size();
+            List<Task> completed = p.getByStatus(Status.COMPLETED);
+            int numberOfCompleteTasks = completed.size();
+            double progress = ((double) numberOfCompleteTasks / numberOfTask)*100;
+            sum += progress;
+            num++;
+
+            System.out.print(centerText(String.format(YELLOW + "%s" +RESET, projectID), WIDTH));
+            System.out.print(centerText(String.format("%s", name), WIDTH));
+            System.out.print(centerText(String.format("%d", numberOfTask), WIDTH));
+            System.out.print(centerText(String.format("%d", numberOfCompleteTasks), WIDTH));
+            System.out.print(centerText(String.format("%.2f%%", progress), WIDTH));
+            System.out.println("\n");
+
+        }
+
+        double average = 0.00;
+        if (num > 0){
+            average = sum/num;
+        }
+
+
+
+        System.out.println("________________________________________________________________________________________________________________________");
+        System.out.println("________________________________________________________________________________________________________________________");
+        System.out.println(centerText(String.format(GREEN + "AVERAGE COMPLETION:  %.2f%%" + RESET, average), 100));
+        System.out.println("________________________________________________________________________________________________________________________");
     }
 
 //TODO: fix new line bug
@@ -136,6 +181,7 @@ public class Printer {
     }
 
 
-//
-//    }
+
+
+
 }
