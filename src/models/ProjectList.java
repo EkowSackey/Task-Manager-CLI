@@ -1,6 +1,7 @@
 package models;
 
 import exceptions.ProjectNotFoundException;
+import exceptions.TaskNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,7 +107,7 @@ public class ProjectList {
             }
         }
 
-        return null;
+        throw new TaskNotFoundException("Task with ID " + taskID + " does not exist!");
     }
 
     public List<Task> getTasksByPriority(Priority priority){

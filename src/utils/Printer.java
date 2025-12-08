@@ -144,6 +144,9 @@ public class Printer {
         if (num > 0){
             average = sum/num;
         }
+        else {
+            average = 0.0;
+        }
 
 
 
@@ -186,6 +189,13 @@ public class Printer {
         return result.toString();
     }
 
+    public static void printError(String err){
+        System.out.println(RED+ err + RESET);
+    }
+
+    public static void printSuccess(String s){
+        System.out.println(GREEN + s + RESET);
+    }
 
 
 

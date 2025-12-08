@@ -7,11 +7,14 @@ import models.UserList;
 import utils.Input;
 
 public class UserService {
-    public static final UserList users = new UserList();
+    public  UserList users;
+    public  User u = null;
 
-    public static User u = null;
+    public UserService(UserList users){
+        this.users = users;
+    }
 
-    public static void seedUsers(){
+    public void seedUsers(){
         User ekow = new User("ekow", 121202, Role.ADMIN);
         User saki = new User("saki", 121212, Role.REGULAR_USER);
 
@@ -19,7 +22,7 @@ public class UserService {
         users.addUser(saki);
     }
 
-    public static void init(){
+    public boolean login(){
 
         while (true){
             String username = Input.readString("Input a username: ");
@@ -37,8 +40,8 @@ public class UserService {
             if (user.validate(user.getUsername(), pin)) {
                 System.out.printf("Welcome %s. \n", user.getUsername());
                 u = user;
-                Ui.init();
-                break;
+                return true;
+
             } else {
                 System.out.println("Invalid credentials! Try again.\n\n");
 
@@ -47,7 +50,7 @@ public class UserService {
 
     }
 
-    public static void clearUser(){
+    public  void clearUser(){
         u = null;
     }
 }
