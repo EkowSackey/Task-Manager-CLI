@@ -1,6 +1,6 @@
 
-import main.models.ProjectList;
-import main.models.UserList;
+import main.repository.ProjectList;
+import main.repository.UserList;
 import main.services.MenuService;
 import main.services.ProjectService;
 import main.services.TaskService;

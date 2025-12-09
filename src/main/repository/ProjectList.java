@@ -1,7 +1,10 @@
-package main.models;
+package main.repository;
 
 import main.exceptions.ProjectNotFoundException;
 import main.exceptions.TaskNotFoundException;
+import main.models.Priority;
+import main.models.Project;
+import main.models.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,7 +1,9 @@
 package test.java;
 
+import main.exceptions.InvalidRangeException;
+import main.exceptions.ProjectNotFoundException;
 import main.models.Project;
-import main.models.ProjectList;
+import main.repository.ProjectList;
 import main.services.ProjectService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +43,24 @@ public class ProjectServiceTest {
         Assertions.assertEquals("Hardware Project", hwType);
     }
 
+    @Test
+    @DisplayName("Project Find By ID Test")
+    public void shouldFindByIdOrThrow(){
+        projectService.createSoftwareProject("alpha", "description", "S", 5, 120.00);
+        String createdId = projectService.getAllProjects().getFirst().getID();
 
+        Assertions.assertDoesNotThrow(()->projectService.getProjectById(createdId));
+        Assertions.assertThrows(ProjectNotFoundException.class, ()-> projectService.getProjectById("NON_EXISTENT_ID"));
+    }
 
+    @Test
+    @DisplayName("Project Find By Range Test")
+    public void shouldFindByRangeOrThrow(){
+        projectService.createSoftwareProject("alpha", "description", "S", 5, 120.00);
+
+        Assertions.assertDoesNotThrow(()->projectService.searchByRange(100.00, 400.00));
+        Assertions.assertNotNull(projectService.searchByRange(100.00, 400.00));
+        Assertions.assertThrows(InvalidRangeException.class, ()-> projectService.searchByRange(500.00, 20.00));
+    }
 
 }

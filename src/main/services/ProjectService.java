@@ -3,12 +3,13 @@ package main.services;
 import main.exceptions.InvalidRangeException;
 import main.exceptions.TaskNotFoundException;
 import main.models.*;
+import main.repository.ProjectList;
 import main.utils.Autogen;
 
 import java.util.List;
 
 public class ProjectService {
-    public  ProjectList projects;
+    public ProjectList projects;
 
     public ProjectService(ProjectList projects){
         this.projects = projects;
@@ -67,7 +68,6 @@ public class ProjectService {
 
     public Project getProjectById(String prjID){
         return projects.getByID(prjID);
-
     }
 
     public Task getTaskById(String id){

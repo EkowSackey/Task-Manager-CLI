@@ -1,7 +1,7 @@
 package test.java;
 
 import main.exceptions.UserNotFoundException;
-import main.models.UserList;
+import main.repository.UserList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import main.services.UserService;

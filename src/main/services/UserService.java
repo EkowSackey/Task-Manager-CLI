@@ -3,7 +3,7 @@ package main.services;
 import main.exceptions.UserNotFoundException;
 import main.models.Role;
 import main.models.User;
-import main.models.UserList;
+import main.repository.UserList;
 import main.utils.Input;
 
 public class UserService {

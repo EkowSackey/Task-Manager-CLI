@@ -3,6 +3,7 @@ package main.services;
 import main.exceptions.ProjectNotFoundException;
 import main.exceptions.TaskNotFoundException;
 import main.models.*;
+import main.repository.ProjectList;
 import main.utils.Autogen;
 
 import java.util.List;
@@ -15,7 +16,6 @@ public class TaskService {
     public TaskService(ProjectList projects){
         this.projects = projects;
     }
-
 
     public List<Task> getAllTasks() {
 
@@ -37,7 +37,6 @@ public class TaskService {
             }
     }
 
-
     public void updateTask(Task task, Status newStatus, Priority newPriority) {
 
         task.setStatus(newStatus);
@@ -45,15 +44,17 @@ public class TaskService {
 
     }
 
-    public void deleteTask(String taskId) throws Exception {
+    public void deleteTask(String taskId) {
         try{
             Task dTask = projects.getTaskByID(taskId);
             Project p = projects.getByID(dTask.getAssignedProjectID());
             p.deleteTask(dTask);
 
 
-        }catch (TaskNotFoundException | ProjectNotFoundException e){
-            throw new Exception(e.getMessage());
+        }catch (TaskNotFoundException  e){
+            throw new TaskNotFoundException("");
+        }catch (ProjectNotFoundException e){
+            throw new ProjectNotFoundException("");
         }
 
     }

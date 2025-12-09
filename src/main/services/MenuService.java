@@ -316,7 +316,7 @@ public final class MenuService {
         try {
             taskService.deleteTask(taskId);
             Printer.printSuccess("Task deleted 🕊️");
-        } catch (Exception e){
+        } catch (TaskNotFoundException | ProjectNotFoundException e){
             Printer.printError(e.getMessage());
         }
     }
