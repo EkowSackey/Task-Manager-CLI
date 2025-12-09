@@ -1,9 +1,9 @@
-package services;
+package main.services;
 
-import exceptions.ProjectNotFoundException;
-import exceptions.TaskNotFoundException;
-import models.*;
-import utils.Autogen;
+import main.exceptions.ProjectNotFoundException;
+import main.exceptions.TaskNotFoundException;
+import main.models.*;
+import main.utils.Autogen;
 
 import java.util.List;
 
@@ -11,17 +11,11 @@ import java.util.List;
 public class TaskService {
 
     private final ProjectList projects;
-    private final ProjectService projectService;
 
-    public TaskService(ProjectList projects, ProjectService projectService){
+    public TaskService(ProjectList projects){
         this.projects = projects;
-        this.projectService = projectService;
     }
 
-    public void init() {
-
-//        TODO
-    }
 
     public List<Task> getAllTasks() {
 

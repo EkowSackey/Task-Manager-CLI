@@ -1,6 +1,6 @@
-package models;
+package main.models;
 
-import exceptions.UserNotFoundException;
+import main.exceptions.UserNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;

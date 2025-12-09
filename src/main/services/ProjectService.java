@@ -1,9 +1,9 @@
-package services;
+package main.services;
 
-import exceptions.InvalidRangeException;
-import exceptions.TaskNotFoundException;
-import models.*;
-import utils.Autogen;
+import main.exceptions.InvalidRangeException;
+import main.exceptions.TaskNotFoundException;
+import main.models.*;
+import main.utils.Autogen;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package utils;
+package main.utils;
 
-import models.Priority;
-import models.Status;
+import main.models.Priority;
+import main.models.Status;
 
 import java.util.Scanner;
 

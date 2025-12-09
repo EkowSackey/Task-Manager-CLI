@@ -1,7 +1,7 @@
-package models;
+package main.models;
 
-import exceptions.ProjectNotFoundException;
-import exceptions.TaskNotFoundException;
+import main.exceptions.ProjectNotFoundException;
+import main.exceptions.TaskNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;

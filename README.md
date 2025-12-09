@@ -10,6 +10,8 @@
 - List tasks and projects with filter options
 - Simple, intuitive command syntax
 
+![img.png](img.png)
+
 ## Installation
 
 ### Requirements

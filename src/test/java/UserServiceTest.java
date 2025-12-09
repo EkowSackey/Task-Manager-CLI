@@ -1,20 +1,17 @@
 package test.java;
 
-import exceptions.UserNotFoundException;
-import models.UserList;
+import main.exceptions.UserNotFoundException;
+import main.models.UserList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import services.UserService;
+import main.services.UserService;
 
 public class UserServiceTest {
     UserList users = new UserList();
     UserService userService = new UserService(users);
     @Test
     public void shouldSeedUsers(){
-
         userService.seedUsers();
-
-
         Assertions.assertFalse(users.getUsers().isEmpty());
         Assertions.assertEquals(2, users.getUsers().size());
     }
@@ -23,7 +20,6 @@ public class UserServiceTest {
     public void shouldThrowNotFoundException(){
         String username = "invalid_username";
         Assertions.assertThrows(UserNotFoundException.class, ()->users.findByUsername(username));
-
     }
 
     @Test

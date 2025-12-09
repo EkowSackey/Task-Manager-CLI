@@ -1,15 +1,14 @@
-package services;
+package main.services;
 
-import exceptions.InvalidRangeException;
-import exceptions.ProjectNotFoundException;
-import exceptions.TaskNotFoundException;
-import models.Priority;
-import models.Project;
-import models.Status;
-import models.Task;
-import utils.Input;
-import utils.Menus;
-import utils.Printer;
+import main.exceptions.ProjectNotFoundException;
+import main.exceptions.TaskNotFoundException;
+import main.models.Priority;
+import main.models.Project;
+import main.models.Status;
+import main.models.Task;
+import main.utils.Input;
+import main.utils.Menus;
+import main.utils.Printer;
 
 import java.util.ArrayList;
 import java.util.List;

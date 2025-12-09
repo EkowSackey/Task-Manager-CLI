@@ -1,10 +1,10 @@
-package services;
+package main.services;
 
-import exceptions.UserNotFoundException;
-import models.Role;
-import models.User;
-import models.UserList;
-import utils.Input;
+import main.exceptions.UserNotFoundException;
+import main.models.Role;
+import main.models.User;
+import main.models.UserList;
+import main.utils.Input;
 
 public class UserService {
     public  UserList users;

@@ -1,10 +1,10 @@
 
-import models.ProjectList;
-import models.UserList;
-import services.MenuService;
-import services.ProjectService;
-import services.TaskService;
-import services.UserService;
+import main.models.ProjectList;
+import main.models.UserList;
+import main.services.MenuService;
+import main.services.ProjectService;
+import main.services.TaskService;
+import main.services.UserService;
 
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -15,7 +15,7 @@ void main() {
     ProjectList projects = new ProjectList();
 
     ProjectService projectService = new ProjectService(projects);
-    TaskService taskService = new TaskService(projects, projectService);
+    TaskService taskService = new TaskService(projects);
     UserService userService = new UserService(users);
     userService.seedUsers();
 

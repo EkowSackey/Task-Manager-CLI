@@ -1,6 +1,4 @@
-package utils;
-
-import models.ProjectList;
+package main.utils;
 
 public class Autogen {
     private static int projectID = 0;
