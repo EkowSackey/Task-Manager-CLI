@@ -2,12 +2,13 @@
 
 **Task Manager CLI** is a command-line project and task management system built in Java. It helps users efficiently organize, track, and manage their projects and tasks directly from the terminal. This tool is ideal for developers, students, and anyone who prefers a CLI-based workflow for productivity.
 
-## Features
+## Feature Summary
 
-- Add, edit, and delete projects and tasks
-- Organize tasks within projects
-- Mark tasks as completed or pending
-- List tasks and projects with filter options
+- Users can add software or hardware projects after signing in.
+- Users can organize tasks within projects.
+- Users can mark tasks as completed, started or pending
+- Users can can update task priority 
+- Users can search projects by budget range
 - Simple, intuitive command syntax
 
 ![img.png](img.png)
@@ -31,7 +32,8 @@ java -cp bin Main
 
 
 ## Usage
-Follow the console UI commands to use. Please make sure to input the right formats at all times.
+Follow the intuitive console UI commands to use. 
+
 
 ## Contributing
 
@@ -48,4 +50,7 @@ Contributions, bug reports, and feature requests are welcome!
 ## Author
 
 Ekow Sackey
+
+## Commit Log Snapshot
+![img_1.png](img_1.png)
 

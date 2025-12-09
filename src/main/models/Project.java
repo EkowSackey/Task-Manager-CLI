@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Project {
-    private String ID;
-    private String name;
-    private String type;
-    private String description;
-    private int teamSize;
-    private double budget;
+    private final String ID;
+    private final String name;
+    private final String type;
+    private final String description;
+    private final int teamSize;
+    private final double budget;
     private final List<Task> tasks = new ArrayList<Task>();
     private double completion;
 
@@ -30,13 +30,6 @@ public abstract class Project {
     public  int getTeamSize(){ return this.teamSize;}
     public  double getBudget(){return this.budget;}
 
-//    setters
-    public void setName(String name){this.name = name;};
-    public void setID(String ID){this.ID = ID;};
-    public void setType(String type){this.type = type;};
-    public void setDescription(String description){this.description = description;};
-    public void setTeamSize(int teamSize){this.teamSize = teamSize;};
-    public void setBudget(double budget){this.budget = budget;};
 
     public List<Task> getByStatus(Status status){
         List<Task> t = new ArrayList<Task>();
@@ -49,19 +42,6 @@ public abstract class Project {
         }
         return t;
     }
-
-//display methods-- for test
-    public void displayProject(){
-        System.out.println("Project ID: "+ ID);
-        System.out.println("Project Name: " + name);
-        System.out.println("Project Type: "+ type);
-        System.out.println("Description: " + description);
-        System.out.println("Team Size: " + teamSize);
-        System.out.println("Budget: "+ budget);
-    }
-
-
-
 
 //    task methods
     public void addTask(Task task){
@@ -85,9 +65,6 @@ public abstract class Project {
         return String.format("Project %s is %.2f %% COMPLETED\n\n", name, percentage);
     }
 
-
-
-
     @Override
     public String toString() {
         return String.format(
@@ -95,9 +72,5 @@ public abstract class Project {
                 ID, name, type, description, teamSize, budget
         );
     }
-
-
-
-
 
 }

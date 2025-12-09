@@ -21,26 +21,15 @@ public class ProjectList {
         return projects;
     }
 
-
-
-    public int getSize(){
-        return projects.size();
-    }
-
     public Project getByID(String ID){
 
         for (Project p: projects){
             String id= p.getID();
             if (id.equals(ID)){
-
                 return p;
-
             }
-
         }
-
         throw new ProjectNotFoundException("Project with ID " + ID + " not found!");
-
     }
 
     public List<Project> getByType(String type){
@@ -72,27 +61,8 @@ public class ProjectList {
         return filtered;
     }
 
-    public void addTask(Task task, String projectId){
-        Project prj = getByID(projectId);
-
-        prj.addTask(task);
-    }
-
-
-    public List<Task> getTasks(String projectID){
-        // get all tasks associated with a project
-        Project prj = getByID(projectID);
-        List<Task> t = prj.getTasks();
-        if (t.isEmpty()){
-            System.out.println("No tasks in Project");
-            return null;
-        }
-        return t;
-
-    }
-
     public List<Task> getAllTasks(){
-        // get all tasks
+
         List<Task> allTasks = new ArrayList<>();
 
         for (Project p : projects){
@@ -109,27 +79,7 @@ public class ProjectList {
                 return t;
             }
         }
-
         throw new TaskNotFoundException("Task with ID " + taskID + " does not exist!");
     }
-
-    public List<Task> getTasksByPriority(Priority priority){
-        List<Task> prtasks = new ArrayList<>();
-        for (Project p : projects){
-            List<Task> tasks = p.getTasks();
-
-            for (Task t : tasks){
-                if (t.getPriority() == priority){
-                    prtasks.add(t);
-                }
-            }
-        }
-
-        return prtasks;
-    }
-
-
-
-
 
 }
