@@ -376,7 +376,7 @@ public final class MenuService {
         String name = Input.readString("Project name: ");
         String description = Input.readString("Enter a short description: ");
         int teamSize = Input.readInt("Enter a team size: ");
-        int budget = Input.readInt("Budget: ");
+        double budget = Input.readDouble("Budget: ");
         String type = "Software Project";
 
         projectService.createSoftwareProject(name, description, type, teamSize, budget);
@@ -390,7 +390,7 @@ public final class MenuService {
         String name = Input.readString("Project name: ");
         String description = Input.readString("Enter a short description: ");
         int teamSize = Input.readInt("Enter a team size: ");
-        int budget = Input.readInt("Budget: ");
+        double budget = Input.readDouble("Budget: ");
         String type = "Hardware Project";
 
         projectService.createHardwareProject(name, description, type, teamSize, budget);

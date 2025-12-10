@@ -14,14 +14,12 @@ public class Printer {
 
     public static void printBanner(String text){
 
-
         System.out.println(BLUE + "*========================================*");
         System.out.print(BLUE+"||" + RESET);
         System.out.printf("%s", centerText(text, 38));
         System.out.print(BLUE+"||\n");
         System.out.println(BLUE + "*========================================*" + RESET);
         System.out.println("\n");
-
     }
 
     public static void printTaskTable(List<Task> tasks){
@@ -38,10 +36,7 @@ public class Printer {
         System.out.print(centerText("PRIORITY", WIDTH) + "\n");
         System.out.println("________________________________________________________________________________________________________________________");
 
-
-
         for (Task t : tasks) {
-
             System.out.print(centerText(String.format(YELLOW + "%s" + RESET, t.getID()), WIDTH));
             System.out.print("|");
             System.out.print(centerText(String.format("%s", t.getName()), LARGE));
@@ -52,8 +47,6 @@ public class Printer {
             System.out.print("|");
             System.out.print(centerText(String.format("%s", t.getPriority()), WIDTH));
             System.out.println("\n");
-
-
         }
 
         if (tasks.isEmpty()){
@@ -64,8 +57,6 @@ public class Printer {
     }
 
     public static void printProjectTable(List<Project> projects){
-
-
         System.out.println("_____________________________________________________________________________________________________________________________________________________________________");
         System.out.print(centerText(YELLOW + "PROJECT ID" + RESET, WIDTH));
         System.out.print("|");
@@ -105,17 +96,17 @@ public class Printer {
     }
 
     public static void printReport(List<Project> projects){
-        System.out.println("________________________________________________________________________________________________________________________");
+        System.out.println("_____________________________________________________________________________________________");
         System.out.print(centerText(YELLOW + "PROJECT ID" + RESET, WIDTH));
         System.out.print("|");
-        System.out.print(centerText("PROJECT NAME", LARGE));
+        System.out.print(centerText("PROJECT NAME", WIDTH));
         System.out.print("|");
         System.out.print(centerText("TASKS", WIDTH));
         System.out.print("|");
         System.out.print(centerText("COMPLETED", WIDTH));
         System.out.print("|");
         System.out.print(centerText("PROGRESS", WIDTH) + "\n");
-        System.out.println("________________________________________________________________________________________________________________________");
+        System.out.println("_____________________________________________________________________________________________");
 
         double sum = 0.0;
         int num = 0;
@@ -144,16 +135,14 @@ public class Printer {
         if (num > 0){
             average = sum/num;
         }
-        else {
-            average = 0.0;
-        }
 
 
 
-        System.out.println("________________________________________________________________________________________________________________________");
-        System.out.println("________________________________________________________________________________________________________________________");
+
+        System.out.println("_____________________________________________________________________________________________");
+        System.out.println("_____________________________________________________________________________________________");
         System.out.println(centerText(String.format(GREEN + "AVERAGE COMPLETION:  %.2f%%" + RESET, average), 100));
-        System.out.println("________________________________________________________________________________________________________________________");
+        System.out.println("_____________________________________________________________________________________________");
     }
 
     public static void printOptions(String[] options){
@@ -196,8 +185,5 @@ public class Printer {
     public static void printSuccess(String s){
         System.out.println(GREEN + s + RESET);
     }
-
-
-
 
 }

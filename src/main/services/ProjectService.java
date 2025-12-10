@@ -15,11 +15,6 @@ public class ProjectService {
         this.projects = projects;
     }
 
-    public void init(){
-
-//      TODO  convert to data pre-loader
-    }
-
     public List<Project> getAllProjects(){
 
         return projects.getProjects();
