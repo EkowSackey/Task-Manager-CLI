@@ -2,10 +2,7 @@ package main.services;
 
 import main.exceptions.ProjectNotFoundException;
 import main.exceptions.TaskNotFoundException;
-import main.models.Priority;
-import main.models.Project;
-import main.models.Status;
-import main.models.Task;
+import main.models.*;
 import main.utils.Input;
 import main.utils.Menus;
 import main.utils.Printer;
@@ -15,7 +12,7 @@ import java.util.List;
 
 public final class MenuService {
 
-    public enum MenuType { MAIN, PROJECTS, TASKS, SUBTASK }
+    public enum MenuType { MAIN, PROJECTS, PROJECTS_REGULAR, TASKS, TASK_REGULAR, SUBTASK, SUBTASK_REGULAR }
 
     private final UserService userService;
     private final ProjectService projectService;
@@ -44,31 +41,47 @@ public final class MenuService {
     private void render() {
         switch (current) {
             case MAIN     -> {
-
                 Printer.printBanner("PROJECT MANAGEMENT SYSTEM");
                 System.out.printf("Current User: %s (%s)%n%n ", userService.u.getUsername(), userService.u.getRole());
                 Menus.renderMainMenu();
             }
             case PROJECTS -> Menus.renderProjectCatalog();
+            case PROJECTS_REGULAR -> Menus.renderRegularProjectCatalog();
             case TASKS    -> Menus.renderTaskCatalog();
-            case SUBTASK  -> Menus.renderTaskSubMenu(currentProjectId);
+            case TASK_REGULAR -> Menus.renderRegularTaskCatalog();
+            case SUBTASK  -> Menus.renderTaskSubMenu();
+            case SUBTASK_REGULAR -> Menus.renderRegularTaskSubMenu();
         }
     }
 
     private void dispatch(int choice) {
         switch (current) {
-            case MAIN     -> handleMain(choice);
+            case MAIN -> handleMain(choice);
             case PROJECTS -> handleProjects(choice);
-            case TASKS    -> handleTasks(choice);
-            case SUBTASK  -> handleSubtask(choice);
+            case PROJECTS_REGULAR -> handleProjectsRegular(choice);
+            case TASKS -> handleTasks(choice);
+            case TASK_REGULAR -> handleTasksRegular(choice);
+            case SUBTASK -> handleSubtask(choice);
+            case SUBTASK_REGULAR -> handleSubtaskRegular(choice);
         }
     }
 
     private void handleMain(int choice) {
-
+        Role userRole = userService.u.getRole();
+        boolean isAdmin = userRole == Role.ADMIN ;
         switch (choice) {
-            case 1 -> current = MenuType.PROJECTS;
-            case 2 -> current = MenuType.TASKS;
+            case 1-> {
+                if (isAdmin)
+                    current = MenuType.PROJECTS;
+                else
+                    current = MenuType.PROJECTS_REGULAR;
+            }
+            case 2 -> {
+                if (isAdmin)
+                    current = MenuType.TASKS;
+                else
+                    current = MenuType.TASK_REGULAR;
+            }
             case 3 -> showStatusReports();
             case 4 -> switchUser();
             case 5 -> running = false;
@@ -119,6 +132,46 @@ public final class MenuService {
 
     }
 
+    public void handleProjectsRegular(int choice){
+        switch (choice) {
+            case 1 -> {
+                var projects = projectService.getAllProjects();
+                renderProjects(projects);
+                pickProjectDetailsRegular(projects);
+            }
+            case 2 -> {
+                List<Project> projects;
+                try {
+                    projects = projectService.getSoftwareProjects();
+                    renderProjects(projects);
+                    pickProjectDetailsRegular(projects);
+                } catch (ProjectNotFoundException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println("Try again");
+
+                }
+
+            }
+            case 3 -> {
+                var projects = projectService.getHardwareProjects();
+
+                renderProjects(projects);
+                pickProjectDetailsRegular(projects);
+            }
+            case 4 -> {
+                double min = Input.readDouble("Min budget: ");
+                double max = Input.readDouble("Max budget: ");
+                var projects = projectService.searchByRange(min, max);
+                Printer.printBanner(String.format("*Projects in range $%.2f and $%.2f*", min, max));
+                renderProjects(projects);
+                pickProjectDetailsRegular(projects);
+            }
+
+            case 0 -> current = MenuType.MAIN;
+            default -> Printer.printError("Invalid Input! Try again.");
+        }
+    }
+
     private void handleTasks(int choice) {
         switch (choice) {
             case 1 -> {
@@ -136,6 +189,21 @@ public final class MenuService {
                 String id = Input.readString("Enter a VALID Task ID to delete: ");
                 deleteTask(id);
             }
+            case 0 -> current = MenuType.MAIN;
+            default -> Printer.printError("Invalid Input! Try again.");
+        }
+    }
+
+    private void handleTasksRegular(int choice) {
+        switch (choice) {
+            case 1 -> {
+                var tasks = taskService.getAllTasks();
+                Printer.printBanner("*ALL TASKS*");
+                renderTasks(tasks);
+                pickTaskForUpdate(tasks);
+            }
+            case 2 -> createTaskRegular();
+
             case 0 -> current = MenuType.MAIN;
             default -> Printer.printError("Invalid Input! Try again.");
         }
@@ -159,8 +227,21 @@ public final class MenuService {
             }
         }
     }
+    private void handleSubtaskRegular(int choice) {
+        switch (choice) {
+            case 1 -> createTaskRegular();
 
-    /* ===== UI rendering helpers ===== */
+            case 0 -> current = MenuType.MAIN;
+            default -> {
+                Printer.printError("Invalid choice! Try again.");
+                showProjectDetailsRegular(currentProjectId);
+            }
+        }
+    }
+
+    /**
+     * UI Rendering Helpers
+     */
 
     private void renderProjects(List<Project> projects) {
         Printer.printProjectTable(projects);
@@ -187,6 +268,28 @@ public final class MenuService {
          showProjectDetails(choice);
          current = MenuType.SUBTASK;
 
+    }
+
+    private void pickProjectDetailsRegular(List<Project> projects) {
+        List<String> ids = new ArrayList<>();
+
+        for (Project p: projects){
+            ids.add(p.getID());
+        }
+        String choice = Input.readString("\nEnter a valid Project ID to view details (0 to go back): ").trim();
+
+        if (choice.equals("0")) {
+            current = MenuType.PROJECTS_REGULAR;
+            return;
+        }
+        if (!ids.contains(choice)){
+            Printer.printError("Invalid project ID! Try again.");
+            current = MenuType.PROJECTS_REGULAR;
+            return;
+        }
+        currentProjectId = choice;
+        showProjectDetailsRegular(choice);
+        current = MenuType.SUBTASK_REGULAR;
 
     }
 
@@ -198,6 +301,32 @@ public final class MenuService {
         } catch (ProjectNotFoundException e) {
             Printer.printError(e.getMessage());
             current = MenuType.PROJECTS;
+            return;
+        }
+
+        Printer.printBanner(String.format("*PROJECT DETAILS: %S*", id));
+
+        System.out.printf("Project Name: %s%n", prj.getName());
+        System.out.printf("Type: %s%n", prj.getType());
+        System.out.printf("Team Size: %d%n", prj.getTeamSize());
+        System.out.printf("Budget: $%.2f%n%n", prj.getBudget());
+        System.out.printf("Completion: %s%n", prj.getCompletion());
+
+        List<Task> tasks = prj.getTasks();
+
+        System.out.println("Associated Tasks:");
+        Printer.printTaskTable(tasks);
+        System.out.println("\n");
+
+    }
+    private void showProjectDetailsRegular(String id) {
+
+        Project prj;
+        try {
+            prj = projectService.getProjectById(id);
+        } catch (ProjectNotFoundException e) {
+            Printer.printError(e.getMessage());
+            current = MenuType.PROJECTS_REGULAR;
             return;
         }
 
@@ -285,6 +414,23 @@ public final class MenuService {
 
         }
         current = MenuType.TASKS;
+    }
+
+    private void createTaskRegular() {
+        String name = Input.readString("Task name: ");
+        String projectId = Input.readString("Assign a valid Project ID: ");
+        Status status = Input.readStatus();
+        Priority priority  = Input.readPriority();
+
+
+        try {
+            taskService.createTask(name, projectId, status, priority);
+            Printer.printSuccess("Task Created Successfully!");
+        } catch (ProjectNotFoundException e) {
+            Printer.printError(e.getMessage());
+
+        }
+        current = MenuType.TASK_REGULAR;
     }
 
     private void updateTask(String taskId) {
