@@ -39,8 +39,7 @@ public class TaskService {
 
     public void updateTask(Task task, Status newStatus, Priority newPriority) {
 
-        task.setStatus(newStatus);
-        task.setPriority(newPriority);
+        task.setStatusAndPriority(newStatus, newPriority);
 
     }
 
