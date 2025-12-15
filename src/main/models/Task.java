@@ -1,6 +1,8 @@
 package main.models;
 
-public class Task {
+import main.interfaces.Completable;
+
+public class Task implements Completable {
     private final String ID;
     private final String assignedProjectID;
     private final String name;
@@ -58,6 +60,8 @@ public class Task {
     }
 
 
-
-
+    @Override
+    public void markComplete() {
+        setStatus(Status.COMPLETED);
+    }
 }

@@ -1,17 +1,19 @@
 package main.utils;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Autogen {
-    private static int projectID = 0;
-    private static int taskID = 0;
+    private static AtomicInteger projectID = new AtomicInteger(0);
+    private static AtomicInteger taskID = new AtomicInteger(0);
 
     public static String addProject(){
-        projectID ++;
-        return String.format("P%03d",projectID);
+        projectID.getAndIncrement();
+        return String.format("P%03d",projectID.get());
     }
 
     public static String addTask(){
-        taskID ++;
-        return String.format("T%03d", taskID);
+        taskID.getAndIncrement();
+        return String.format("T%03d", taskID.get());
 
     }
 }

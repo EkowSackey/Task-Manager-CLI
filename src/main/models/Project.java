@@ -1,6 +1,7 @@
 package main.models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class Project {
@@ -10,7 +11,7 @@ public abstract class Project {
     private final String description;
     private final int teamSize;
     private final double budget;
-    private final List<Task> tasks = new ArrayList<Task>();
+    private final List<Task> tasks = Collections.synchronizedList(new ArrayList<>());
     private double completion;
 
     public Project(String ID, String name, String type, String description, int teamSize, double budget){
@@ -53,16 +54,18 @@ public abstract class Project {
     }
 
     public List<Task> getTasks(){
-        return tasks;
+        synchronized (tasks){
+            return new ArrayList<>(tasks);
+        }
     }
 
     public String getCompletion(){
         int number = tasks.size();
         int completed = getByStatus(Status.COMPLETED).size();
 
-        double percentage = (number > 0) ? ((double) completed / number) * 100 : 0.00;
+        completion = (number > 0) ? ((double) completed / number) * 100 : 0.00;
 
-        return String.format("Project %s is %.2f %% COMPLETED\n\n", name, percentage);
+        return String.format("Project %s is %.2f %% COMPLETED\n\n", name, completion);
     }
 
     @Override

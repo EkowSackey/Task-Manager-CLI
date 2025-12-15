@@ -25,15 +25,15 @@ import java.util.List;
 public class ProjectList {
     private final List<Project> projects = new ArrayList<Project>();
 
-    public void addProject(Project project){
+    public synchronized void addProject(Project project){
         projects.add(project);
     }
 
-    public List<Project> getProjects(){
-        return projects;
+    public synchronized List<Project> getProjects(){
+        return List.copyOf(projects);
     }
 
-    public Project getByID(String ID){
+    public synchronized Project getByID(String ID){
 
         for (Project p: projects){
             String id= p.getID();
@@ -44,7 +44,7 @@ public class ProjectList {
         throw new ProjectNotFoundException("Project with ID " + ID + " not found!");
     }
 
-    public List<Project> getByType(String type){
+    public synchronized List<Project> getByType(String type){
         List<Project> projectsOfType = new ArrayList<>();
         for (Project p: projects){
             String ptype = p.getType();
@@ -55,7 +55,7 @@ public class ProjectList {
         return projectsOfType;
     }
 
-    public List<Project> getByBudgetRange(double min, double max){
+    public synchronized List<Project> getByBudgetRange(double min, double max){
         List<Project> filtered = new ArrayList<Project>();
 
         if (min > max) System.out.println("Invalid Range!");
@@ -73,7 +73,7 @@ public class ProjectList {
         return filtered;
     }
 
-    public List<Task> getAllTasks(){
+    public synchronized List<Task> getAllTasks(){
 
         List<Task> allTasks = new ArrayList<>();
 
@@ -83,7 +83,7 @@ public class ProjectList {
         return allTasks;
     }
 
-    public Task getTaskByID(String taskID){
+    public synchronized Task getTaskByID(String taskID){
         List<Task> allTasks = getAllTasks();
 
         for (Task t: allTasks){
