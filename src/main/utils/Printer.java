@@ -123,9 +123,13 @@ public class Printer {
             num++;
 
             System.out.print(centerText(String.format(YELLOW + "%s" +RESET, projectID), WIDTH));
+            System.out.print("|");
             System.out.print(centerText(String.format("%s", name), WIDTH));
+            System.out.print("|");
             System.out.print(centerText(String.format("%d", numberOfTask), WIDTH));
+            System.out.print("|");
             System.out.print(centerText(String.format("%d", numberOfCompleteTasks), WIDTH));
+            System.out.print("|");
             System.out.print(centerText(String.format("%.2f%%", progress), WIDTH));
             System.out.println("\n");
 
