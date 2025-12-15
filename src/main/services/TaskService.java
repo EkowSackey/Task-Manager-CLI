@@ -23,6 +23,10 @@ public class TaskService {
 
     }
 
+    public Task getById(String id){
+        return projects.getTaskByID(id);
+    }
+
     public void createTask(String name, String assigned, Status status, Priority priority) {
 
             try {
