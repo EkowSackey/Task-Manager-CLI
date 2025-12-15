@@ -1,5 +1,6 @@
 package main.repository;
 
+import main.exceptions.InvalidRangeException;
 import main.exceptions.ProjectNotFoundException;
 import main.exceptions.TaskNotFoundException;
 import main.models.Priority;
@@ -9,6 +10,8 @@ import main.models.Task;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This class uses a List as a data storage for projects.
@@ -46,28 +49,24 @@ public class ProjectList {
 
     public synchronized List<Project> getByType(String type){
         List<Project> projectsOfType = new ArrayList<>();
-        for (Project p: projects){
-            String ptype = p.getType();
-            if (ptype.equals(type)){
-                projectsOfType.add(p);
-            }
-        }
+
+        projects.stream()
+                .filter(p-> p.getType().equals(type))
+                .forEach(projectsOfType::add);
+
         return projectsOfType;
     }
 
     public synchronized List<Project> getByBudgetRange(double min, double max){
         List<Project> filtered = new ArrayList<Project>();
 
-        if (min > max) System.out.println("Invalid Range!");
+        if (min > max) throw new InvalidRangeException("Invalid range");
 
-        for(Project p: projects){
-            double budget = p.getBudget();
-            if (budget >= min && budget <=max)
-                filtered.add(p);
-        }
+        projects.stream()
+                .filter(x-> x.getBudget() >= min && x.getBudget() <=max)
+                .forEach(filtered::add);
 
         if (filtered.isEmpty()) {
-            System.out.println("No Projects Found");
             return Collections.emptyList();
         }
         return filtered;
