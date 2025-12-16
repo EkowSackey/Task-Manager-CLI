@@ -182,11 +182,11 @@ public final class MenuService {
             }
             case 2 -> createTask();
             case 3 -> {
-                String id = Input.readString("Enter a VALID Task ID: ");
+                String id = Input.readTaskID("Enter a VALID Task ID: ");
                 updateTask(id);
             }
             case 4 -> {
-                String id = Input.readString("Enter a VALID Task ID to delete: ");
+                String id = Input.readTaskID("Enter a VALID Task ID to delete: ");
                 deleteTask(id);
             }
             case 0 -> current = MenuType.MAIN;
@@ -213,11 +213,11 @@ public final class MenuService {
         switch (choice) {
             case 1 -> createTask();
             case 2 -> {
-                String id = Input.readString("Enter a VALID Task ID to update: ");
+                String id = Input.readTaskID("Enter a VALID Task ID to update: ");
                 updateTask(id);
             }
             case 3 -> {
-                String id = Input.readString("Enter a VALID Task ID to delete: ");
+                String id = Input.readTaskID("Enter a VALID Task ID to delete: ");
                 deleteTask(id);
             }
             case 0 -> current = MenuType.MAIN;
@@ -253,7 +253,7 @@ public final class MenuService {
         for (Project p: projects){
             ids.add(p.getID());
         }
-        String choice = Input.readString("\nEnter a valid Project ID to view details (0 to go back): ").trim();
+        String choice = Input.readProjectID("\nEnter a valid Project ID to view details (0 to go back): ");
 
          if (choice.equals("0")) {
             current = MenuType.PROJECTS;
@@ -276,7 +276,7 @@ public final class MenuService {
         for (Project p: projects){
             ids.add(p.getID());
         }
-        String choice = Input.readString("\nEnter a valid Project ID to view details (0 to go back): ").trim();
+        String choice = Input.readProjectID("\nEnter a valid Project ID to view details (0 to go back): ").trim();
 
         if (choice.equals("0")) {
             current = MenuType.PROJECTS_REGULAR;
@@ -356,7 +356,7 @@ public final class MenuService {
         for (Task t: tasks){
             ids.add(t.getID());
         }
-        String choice = Input.readString("\nEnter a valid Task Id to update (0 to go back) : ");
+        String choice = Input.readTaskID("\nEnter a valid Task Id to update (0 to go back) : ");
         if (ids.contains(choice)){
             updateTask(choice);
         } else if (choice.equals("0")) {
@@ -401,7 +401,7 @@ public final class MenuService {
 
     private void createTask() {
         String name = Input.readString("Task name: ");
-        String projectId = Input.readString("Assign a valid Project ID: ");
+        String projectId = Input.readProjectID("Assign a valid Project ID: ");
         Status status = Input.readStatus();
         Priority priority  = Input.readPriority();
 
@@ -418,7 +418,7 @@ public final class MenuService {
 
     private void createTaskRegular() {
         String name = Input.readString("Task name: ");
-        String projectId = Input.readString("Assign a valid Project ID: ");
+        String projectId = Input.readProjectID("Assign a valid Project ID: ");
         Status status = Input.readStatus();
         Priority priority  = Input.readPriority();
 
