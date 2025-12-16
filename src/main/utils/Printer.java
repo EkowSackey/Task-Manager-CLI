@@ -68,7 +68,7 @@ public class Printer {
         System.out.print("|");
         System.out.print(centerText("TEAM SIZE", WIDTH));
         System.out.print("|");
-        System.out.print(centerText("PRIORITY", WIDTH) + "\n");
+        System.out.print(centerText("BUDGET", WIDTH) + "\n");
         System.out.println("_____________________________________________________________________________________________________________________________________________________________________");
 
         for (Project p : projects) {

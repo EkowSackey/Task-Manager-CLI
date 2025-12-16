@@ -1,0 +1,38 @@
+[
+  {
+    "ID": "P001",
+    "name": "tears away",
+    "type": "Software Project",
+    "description": "hold mt thoughts",
+    "teamSize": 43,
+    "budget": 12232.0,
+    "tasks": [
+      {
+        "ID": "T001",
+        "assignedProjectID": "P001",
+        "name": "henny",
+        "status": "STARTED",
+        "priority": "LOW"
+      }
+    ],
+    "completion": 0.0
+  },
+  {
+    "ID": "P002",
+    "name": "new new",
+    "type": "Hardware Project",
+    "description": "thingss",
+    "teamSize": 21,
+    "budget": 288271.0,
+    "tasks": [
+      {
+        "ID": "T002",
+        "assignedProjectID": "P002",
+        "name": "tears",
+        "status": "STARTED",
+        "priority": "LOW"
+      }
+    ],
+    "completion": 0.0
+  }
+]

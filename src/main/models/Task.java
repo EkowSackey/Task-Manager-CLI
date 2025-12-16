@@ -1,5 +1,6 @@
 package main.models;
 
+import com.google.gson.annotations.SerializedName;
 import main.interfaces.Completable;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -16,13 +17,23 @@ public class Task implements Completable {
             this.priority= priority;
         }
     }
-    private final AtomicReference<State> state;
+    private transient AtomicReference<State> state;
+
+    @SerializedName("status")
+    private Status statusField;
+
+    @SerializedName("priority")
+    private Priority priorityField;
 
     public Task(String ID, String assignedProjectID, String name, Status status, Priority priority) {
         this.ID = ID;
         this.assignedProjectID = assignedProjectID;
         this.name = name;
-        this.state = new AtomicReference<>(new State(status, priority));
+        State st = new State(status, priority);
+        this.state = new AtomicReference<>(st);
+        this.statusField = st.status;
+        this.priorityField = st.priority;
+
     }
 
 //    getters
@@ -52,14 +63,18 @@ public class Task implements Completable {
 
     public void setPriority(Priority priority) {
         state.updateAndGet(s-> new State(s.status, priority));
+        this.priorityField = priority;
     }
 
     public void setStatus(Status status) {
         state.updateAndGet(s-> new State(status,s.priority));
+        this.statusField = status;
     }
 
     public void setStatusAndPriority(Status status, Priority priority){
         state.set(new State(status, priority));
+        this.statusField = status;
+        this.priorityField = priority;
     }
 
 

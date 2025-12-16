@@ -5,11 +5,16 @@ import main.exceptions.TaskNotFoundException;
 import main.models.*;
 import main.repository.ProjectList;
 import main.utils.Autogen;
+import main.utils.Printer;
 
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.List;
 
 public class ProjectService {
     public ProjectList projects;
+
+
 
     public ProjectService(ProjectList projects){
         this.projects = projects;
@@ -19,6 +24,25 @@ public class ProjectService {
 
         return projects.getProjects();
 
+    }
+
+    public void init(){
+        try {
+            projects.init();
+        } catch (NullPointerException e){
+            Printer.printSuccess("->Starting with empty file...");
+        }
+        catch (IOException e) {
+            Printer.printError("❌Error loading projects from file!");
+        }
+    }
+
+    public void exit(){
+        try {
+            projects.exit();
+        } catch (IOException e) {
+            Printer.printError("❌Error saving to file!");
+        }
     }
 
     public List<Project> getSoftwareProjects(){

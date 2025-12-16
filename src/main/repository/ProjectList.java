@@ -5,7 +5,12 @@ import main.exceptions.ProjectNotFoundException;
 import main.exceptions.TaskNotFoundException;
 import main.models.Project;
 import main.models.Task;
+import main.utils.FileUtils;
+import main.utils.Printer;
 
+import java.io.IOException;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.util.*;
 
 
@@ -24,6 +29,28 @@ import java.util.*;
 public class ProjectList {
 
     private final HashMap<String, Project> projects = new HashMap<>();
+    private final Path path = Path.of("src","main","data", "projects_data.json");
+
+    public void init() throws IOException {
+
+            Printer.printSuccess("Loading projects from file...");
+            int count = 0;
+            List<Project> prjs = FileUtils.loadProjects(path);
+            for (Project p : prjs){
+                addProject(p);
+                count++;
+            }
+
+            Printer.printSuccess(count + " projects loaded successfully from projects_data.json");
+
+    }
+
+    public void exit() throws IOException {
+        Printer.printSuccess("Saving project data...");
+        List<Project> prjs = getProjects();
+        FileUtils.saveProjects(path, prjs);
+        Printer.printSuccess("✅Data written to " + path + " successfully");
+    }
 
     public synchronized void addProject(Project project){
 
