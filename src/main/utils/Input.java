@@ -10,6 +10,8 @@ public class Input {
 
     private static final Pattern STATUS_PATTERN = Pattern.compile("^(completed|pending|started)$", Pattern.CASE_INSENSITIVE);
     private static final Pattern PRIORITY_PATTERN = Pattern.compile("^(critical|high|medium|low)$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern TASKID_PATTERN = Pattern.compile("^(0|T\\d{3})$");
+    private static final Pattern PROJECTID_PATTERN = Pattern.compile("^(0|P\\d{3})$");
     private static final Scanner sc = new Scanner(System.in);
 
     public static int readInt(String prompt){
@@ -65,6 +67,28 @@ public class Input {
                 return Priority.valueOf(value.toUpperCase());
             }
             System.out.println("Invalid input. Please type Critical, High, Medium or Low");
+        }
+    }
+
+    public static String readTaskID(String prompt){
+        while(true){
+            System.out.print(prompt);
+            String value = sc.nextLine().trim();
+            if(TASKID_PATTERN.matcher(value).matches()){
+                return value;
+            }
+            System.out.println("Invalid Input. Input a valid id format (eg. T001)");
+        }
+    }
+
+    public static String readProjectID(String prompt){
+        while(true){
+            System.out.print(prompt);
+            String value = sc.nextLine().trim();
+            if(PROJECTID_PATTERN.matcher(value).matches()){
+                return value;
+            }
+            System.out.println("Invalid Input. Input a valid id format (eg. P001)");
         }
     }
 }
