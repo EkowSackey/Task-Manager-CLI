@@ -4,8 +4,12 @@ import main.models.Priority;
 import main.models.Status;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Input {
+
+    private static final Pattern STATUS_PATTERN = Pattern.compile("^(completed|pending|started)$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PRIORITY_PATTERN = Pattern.compile("^(critical|high|medium|low)$", Pattern.CASE_INSENSITIVE);
     private static final Scanner sc = new Scanner(System.in);
 
     public static int readInt(String prompt){
@@ -39,70 +43,29 @@ public class Input {
     }
 
     public static Status readStatus(){
-        System.out.print("Input status [Must be either 'Completed','Pending' or 'Started']: ");
+        while (true){
+            System.out.print("Input status [Must be either 'Completed','Pending' or 'Started']: ");
+            String value = sc.nextLine().trim();
 
-        String value = sc.nextLine();
-        Status status = null;
-
-        switch (value){
-            case "Completed": {
-                status = Status.COMPLETED;
-                break;
+            if (STATUS_PATTERN.matcher(value).matches()){
+                return Status.valueOf(value.toUpperCase());
             }
 
-            case "Pending": {
-                status = Status.PENDING;
-                break;
-            }
-
-            case "Started": {
-                status = Status.STARTED;
-                break;
-            }
-
-            default:{
-                System.out.println("Invalid input! Status set to 'Pending'.");
-                status = Status.PENDING;
-                break;
-            }
+            System.out.println("Invalid input. Please type Completed, Pending or Started.");
         }
 
-        return status;
     }
 
     public static Priority readPriority(){
-        System.out.print("Input priority [Must be either 'Critical, High, Medium, Low']: ");
+        while(true){
+            System.out.print("Input priority [Must be either 'Critical, High, Medium, Low']: ");
+            String value = sc.nextLine().trim();
 
-        String value = sc.nextLine();
-        Priority priority = null;
-
-        switch (value){
-            case "Critical": {
-                priority = Priority.CRITICAL;
-                break;
+            if (PRIORITY_PATTERN.matcher(value).matches()){
+                return Priority.valueOf(value.toUpperCase());
             }
-            case "High": {
-                priority = Priority.HIGH;
-                break;
-            }
-
-            case "Medium": {
-                priority = Priority.MEDIUM;
-                break;
-            }
-
-            case "Low": {
-                priority = Priority.LOW;
-                break;
-            }
-
-            default:{
-                System.out.println("Invalid input! Priority set to 'Medium'.");
-                priority = Priority.MEDIUM;
-                break;
-            }
+            System.out.println("Invalid input. Please type Critical, High, Medium or Low");
         }
-
-        return priority;
     }
 }
+
