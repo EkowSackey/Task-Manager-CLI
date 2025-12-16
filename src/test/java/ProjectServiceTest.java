@@ -5,9 +5,7 @@ import main.exceptions.ProjectNotFoundException;
 import main.models.Project;
 import main.repository.ProjectList;
 import main.services.ProjectService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
@@ -15,12 +13,17 @@ public class ProjectServiceTest {
     ProjectList projects = new ProjectList();
     ProjectService projectService = new ProjectService(projects);
 
+    @BeforeEach
+    public void setup(){
+        projectService.createSoftwareProject("alpha", "description", "S", 5, 120.00);
+        projectService.createHardwareProject("beta", "desc", "S", 6, 120.00);
+
+
+    }
+
     @Test
     @DisplayName("Project creation test")
     public void shouldCreateProjectsWithDifferentIds(){
-        projectService.createSoftwareProject("alpha", "description", "S", 5, 120.00);
-        projectService.createSoftwareProject("beta", "desc", "S", 6, 120.00);
-
         List<Project> createdProjects = projectService.getAllProjects();
         String id1 = createdProjects.getFirst().getID();
         String id2 = createdProjects.getLast().getID();
@@ -32,8 +35,6 @@ public class ProjectServiceTest {
     @Test
     @DisplayName("Projects Types test")
     public void shouldCreateProjectsWithDifferentTypes(){
-        projectService.createSoftwareProject("alpha", "description", "S", 5, 120.00);
-        projectService.createHardwareProject("beta", "desc", "S", 6, 120.00);
 
         List<Project> createdProjects = projectService.getAllProjects();
         String swType = createdProjects.getFirst().getType();
@@ -46,7 +47,7 @@ public class ProjectServiceTest {
     @Test
     @DisplayName("Project Find By ID Test")
     public void shouldFindByIdOrThrow(){
-        projectService.createSoftwareProject("alpha", "description", "S", 5, 120.00);
+
         String createdId = projectService.getAllProjects().getFirst().getID();
 
         Assertions.assertDoesNotThrow(()->projectService.getProjectById(createdId));
@@ -56,7 +57,6 @@ public class ProjectServiceTest {
     @Test
     @DisplayName("Project Find By Range Test")
     public void shouldFindByRangeOrThrow(){
-        projectService.createSoftwareProject("alpha", "description", "S", 5, 120.00);
 
         Assertions.assertDoesNotThrow(()->projectService.searchByRange(100.00, 400.00));
         Assertions.assertNotNull(projectService.searchByRange(100.00, 400.00));

@@ -3,15 +3,11 @@ package main.repository;
 import main.exceptions.InvalidRangeException;
 import main.exceptions.ProjectNotFoundException;
 import main.exceptions.TaskNotFoundException;
-import main.models.Priority;
 import main.models.Project;
 import main.models.Task;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
+
 
 /**
  * This class uses a List as a data storage for projects.
@@ -26,60 +22,48 @@ import java.util.stream.Stream;
  * <p>getTaskByID returns a task in the list by searching the projects for a matching ID.</p>
  */
 public class ProjectList {
-    private final List<Project> projects = new ArrayList<Project>();
+
+    private final HashMap<String, Project> prjs = new HashMap<>();
 
     public synchronized void addProject(Project project){
-        projects.add(project);
+//        projects.add(project);
+        prjs.put(project.getID(), project);
     }
 
     public synchronized List<Project> getProjects(){
-        return List.copyOf(projects);
+        return List.copyOf(prjs.values());
+
     }
 
     public synchronized Project getByID(String ID){
+        Project p = prjs.get(ID);
 
-        for (Project p: projects){
-            String id= p.getID();
-            if (id.equals(ID)){
-                return p;
-            }
+        if (p != null){
+            return p;
         }
         throw new ProjectNotFoundException("Project with ID " + ID + " not found!");
     }
 
     public synchronized List<Project> getByType(String type){
-        List<Project> projectsOfType = new ArrayList<>();
-
-        projects.stream()
-                .filter(p-> p.getType().equals(type))
-                .forEach(projectsOfType::add);
-
-        return projectsOfType;
+        return prjs.values().stream()
+                .filter(p->p.getType().equals(type))
+                .toList();
     }
 
     public synchronized List<Project> getByBudgetRange(double min, double max){
-        List<Project> filtered = new ArrayList<Project>();
 
         if (min > max) throw new InvalidRangeException("Invalid range");
 
-        projects.stream()
+        return prjs.values().stream()
                 .filter(x-> x.getBudget() >= min && x.getBudget() <=max)
-                .forEach(filtered::add);
+                .toList();
 
-        if (filtered.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return filtered;
     }
 
     public synchronized List<Task> getAllTasks(){
-
-        List<Task> allTasks = new ArrayList<>();
-
-        for (Project p : projects){
-            allTasks.addAll(p.getTasks());
-        }
-        return allTasks;
+        return prjs.values().stream()
+                .flatMap(p-> p.getTasks().stream())
+                .toList();
     }
 
     public synchronized Task getTaskByID(String taskID){
