@@ -35,8 +35,13 @@ public class ProjectList {
 
             Printer.printSuccess("Loading projects from file...");
             int count = 0;
-            List<Project> prjs = FileUtils.loadProjects(path);
-            for (Project p : prjs){
+            List<Project> swProjects = FileUtils.loadswProjects(path);
+            List<Project> hwProjects = FileUtils.loadhwProjects(path);
+            for (Project p : swProjects){
+                addProject(p);
+                count++;
+            }
+            for (Project p: hwProjects){
                 addProject(p);
                 count++;
             }

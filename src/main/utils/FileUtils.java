@@ -3,7 +3,9 @@ package main.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import main.models.HardwareProject;
 import main.models.Project;
+import main.models.SoftwareProject;
 import main.repository.ProjectList;
 
 import java.io.BufferedWriter;
@@ -30,6 +32,8 @@ public class FileUtils {
             Files.createDirectories(parent);
         }
 
+
+
         try (BufferedWriter writer = Files.newBufferedWriter(
                 path, StandardCharsets.UTF_8,
                 StandardOpenOption.CREATE,
@@ -40,10 +44,18 @@ public class FileUtils {
         }
     }
 
-    public static List<Project> loadProjects(Path path) throws IOException{
+    public static List<Project> loadswProjects(Path path) throws IOException{
 
         try(var reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)){
-            var listType = new TypeToken<List<Project>>(){}.getType();
+            var listType = new TypeToken<List<SoftwareProject>>(){}.getType();
+            return gson.fromJson(reader, listType);
+        }
+    }
+
+    public static List<Project> loadhwProjects(Path path) throws IOException{
+
+        try(var reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)){
+            var listType = new TypeToken<List<HardwareProject>>(){}.getType();
             return gson.fromJson(reader, listType);
         }
     }
