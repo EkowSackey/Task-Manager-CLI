@@ -30,11 +30,13 @@ public final class MenuService {
     }
 
     public void run() {
+        projectService.init();
         while (running) {
             render();
             int choice = Input.readInt("Enter your choice: ");
             dispatch(choice);
         }
+        projectService.exit();
         System.out.println("Exiting program...");
     }
 
