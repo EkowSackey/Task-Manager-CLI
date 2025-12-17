@@ -5,6 +5,7 @@ import main.models.Role;
 import main.models.User;
 import main.repository.UserList;
 import main.utils.Input;
+import main.utils.Printer;
 
 public class UserService {
     public  UserList users;
@@ -31,19 +32,18 @@ public class UserService {
             try {
                 user = users.findByUsername(username);
             } catch (UserNotFoundException e) {
-                System.out.println(e.getMessage());
-                System.out.println("Try again!");
+                Printer.printError(e.getMessage());
                 continue;
             }
 
             int pin = Input.readInt("Input PIN: ");
             if (user.validate(user.getUsername(), pin)) {
-                System.out.printf("Welcome %s. \n", user.getUsername());
+                Printer.printSuccess(String.format("Welcome %s. \n", user.getUsername()));
                 u = user;
                 return true;
 
             } else {
-                System.out.println("Invalid credentials! Try again.\n\n");
+                Printer.printError("Invalid credentials! Try again.\n\n");
 
             }
         }
