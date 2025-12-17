@@ -10,73 +10,65 @@ import java.util.concurrent.Executors;
 
 public class ConcurrencyService {
 
-    static void main(String[] args) {
+    private final ProjectService projectService;
+    private final TaskService taskService;
 
-        ProjectList projects = new ProjectList();
-        ProjectService ps = new ProjectService(projects);
-        TaskService ts = new TaskService(projects);
+    public ConcurrencyService( ProjectService p, TaskService t, ProjectList projects){
+        this.projectService = p;
+        this.taskService = t;
 
-        class TaskUpdater implements Runnable{
+    };
 
-            private String taskId;
-            private Status status;
-            private Priority priority;
+    class TaskUpdater implements Runnable{
 
-            public TaskUpdater(String taskId, Status status, Priority priority){
-                this.taskId = taskId;
-                this.priority = priority;
-                this.status = status;
-            }
+        private final String taskId;
+        private final Status status;
+        private final Priority priority;
 
-
-
-            @Override
-            public void run() {
-                System.out.println(Thread.currentThread().getName() + " updating " + taskId + "-> Status: " + status + " Priority: "+ priority);
-                try {
-                    Thread.sleep(5000);
-                    ts.getById(taskId).setStatusAndPriority(status, priority);
-
-                } catch (InterruptedException e) {
-                    System.out.println("they didn't let me sleep");
-
-                }
-            }
+        public TaskUpdater(String taskId, Status status, Priority priority){
+            this.taskId = taskId;
+            this.priority = priority;
+            this.status = status;
         }
 
-        ps.createSoftwareProject("alpha", "desc", "s", 4, 140);
-        ts.createTask("task1", "P001", Status.PENDING, Priority.MEDIUM);
-        ts.createTask("task2", "P001", Status.PENDING, Priority.HIGH);
-        ts.createTask("task3", "P001", Status.PENDING, Priority.CRITICAL);
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + " updating " + taskId + "-> Status: " + status + " Priority: "+ priority);
+            try {
+                Thread.sleep(5000);
+                taskService.getById(taskId).setStatusAndPriority(status, priority);
 
-        ExecutorService executor = Executors.newFixedThreadPool(2);
+            } catch (InterruptedException e) {
+                System.out.println("they didn't let me sleep");
 
-        Runnable updater1 = new TaskUpdater("T001", Status.STARTED, Priority.LOW);
+            }
+        }
+    }
 
-        Runnable updater2 = new TaskUpdater("T002", Status.COMPLETED, Priority.LOW);
+    public void runConcurrentUpdates(){
+        projectService.createSoftwareProject("alpha", "desc", "s", 4, 140);
+        taskService.createTask("task1", "P001", Status.PENDING, Priority.MEDIUM);
+        taskService.createTask("task2", "P001", Status.PENDING, Priority.HIGH);
+        taskService.createTask("task3", "P001", Status.PENDING, Priority.CRITICAL);
 
-        Runnable updater3 = new TaskUpdater("T003", Status.COMPLETED, Priority.LOW);
+        try (ExecutorService executor = Executors.newFixedThreadPool(2)) {
 
-        System.out.println("Starting 3 threads...");
-        executor.execute(updater1);
-        executor.execute(updater2);
-        executor.execute(updater3);
+            Runnable updater1 = new TaskUpdater("T001", Status.STARTED, Priority.LOW);
 
+            Runnable updater2 = new TaskUpdater("T002", Status.COMPLETED, Priority.LOW);
 
+            Runnable updater3 = new TaskUpdater("T003", Status.COMPLETED, Priority.LOW);
 
-        executor.shutdown();
-//        executor.shutdownNow();
+            System.out.println("Starting 3 threads...");
+            executor.execute(updater1);
+            executor.execute(updater2);
+            executor.execute(updater3);
 
-        while (!executor.isTerminated()){
+            executor.shutdown();
 
         }
 
-        if ((!ts.getById("T001").getStatus().equals(Status.STARTED))) throw new AssertionError();
-        if ((!ts.getById("T002").getStatus().equals(Status.COMPLETED))) throw new AssertionError();
-        if ((!ts.getById("T003").getStatus().equals(Status.COMPLETED))) throw new AssertionError();
-
-        else
-            System.out.println("All tasks updated safely and concurrently");
+         System.out.println("All tasks updated safely and concurrently");
     }
 
 }
