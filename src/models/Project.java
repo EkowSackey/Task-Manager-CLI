@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Project {
@@ -10,7 +11,8 @@ public abstract class Project {
     private String description;
     private int teamSize;
     private double budget;
-    private final List<Task> tasks = new ArrayList<Task>();
+    private Task[] tasks = new Task[5];
+    int idx = 0;
     private double completion;
 
     public Project(String ID, String name, String type, String description, int teamSize, double budget){
@@ -22,8 +24,6 @@ public abstract class Project {
         this.budget = budget;
     }
 
-
-
 //    getters
     public String getID() {return this.ID;}
     public  String getName(){return this.name;}
@@ -34,7 +34,7 @@ public abstract class Project {
 
 //    setters
     public void setName(String name){this.name = name;};
-//    public void setID(String ID){this.ID = ID;};
+    public void setID(String ID){this.ID = ID;};
     public void setType(String type){this.type = type;};
     public void setDescription(String description){this.description = description;};
     public void setTeamSize(int teamSize){this.teamSize = teamSize;};
@@ -63,31 +63,42 @@ public abstract class Project {
     }
 
 
-
-
 //    task methods
     public void addTask(Task task){
-        tasks.add(task);
+        tasks[idx] = task;
+        idx++;
     }
 
     public void deleteTask(Task task){
-        tasks.remove(task);
+        int target = -1;
+        for(int i=0; i < tasks.length; i++){
+            if (tasks[i].getID().equals(task.getID())){
+               target = i;
+               break;
+            }
+        }
+        Task[] newTaskArr = new Task[tasks.length-1];
+        int j = 0;
+        for(int i = 0; i < tasks.length; i++){
+            if (i==target) continue;
+            newTaskArr[j++] = tasks[i];
+        }
+
+        this.tasks = newTaskArr;
     }
 
     public List<Task> getTasks(){
-        return tasks;
+        return new ArrayList<>(Arrays.asList(tasks));
     }
 
     public String getCompletion(){
-        int number = tasks.size();
+        int number = tasks.length;
         int completed = getByStatus(Status.COMPLETED).size();
 
         double percentage = (number > 0) ? ((double) completed / number) * 100 : 0.00;
 
         return String.format("Project %s is %.2f %% COMPLETED\n\n", name, percentage);
     }
-
-
 
 
     @Override
@@ -97,9 +108,5 @@ public abstract class Project {
                 ID, name, type, description, teamSize, budget
         );
     }
-
-
-
-
 
 }

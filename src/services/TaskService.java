@@ -91,13 +91,15 @@ public class TaskService {
         List<String> ids = new ArrayList<>();
 
         for (Task t : allTasks) {
-            ids.add(t.getID());
-            System.out.printf("%s       |", t.getID());
-            System.out.printf("  %s            |", t.getName());
-            System.out.printf("  %s            |", t.getAssignedProjectID());
-            System.out.printf("  %s            |", t.getStatus());
-            System.out.printf("  %s            |", t.getPriority());
-            System.out.println("\n");
+            if (t!=null){
+                ids.add(t.getID());
+                System.out.printf("%s       |", t.getID());
+                System.out.printf("  %s            |", t.getName());
+                System.out.printf("  %s            |", t.getAssignedProjectID());
+                System.out.printf("  %s            |", t.getStatus());
+                System.out.printf("  %s            |", t.getPriority());
+                System.out.println("\n");
+            }
 
 
         }

@@ -1,33 +1,44 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ProjectList {
-    private final List<Project> projects = new ArrayList<Project>();
+
+    private final Project[] pjs = new Project[5];
+    private int idx = 0;
 
     public void addProject(Project project){
-        projects.add(project);
+        pjs[idx] = project;
+        idx++;
     }
 
     public List<Project> getProjects(){
-        return projects;
+        List<Project> p = new ArrayList<>();
+        Collections.addAll(p, pjs);
+        return p;
     }
 
-
-
     public int getSize(){
-        return projects.size();
+       int count = 0;
+       for (Project p: pjs){
+           if (p != null) count++;
+       }
+       return count;
     }
 
     public Project getByID(String ID){
 
-        for (Project p: projects){
-            String id= p.getID();
-            if (id.equals(ID)){
+        for (Project p: pjs){
+            if (p!=null){
+                String id = p.getID();
+                if (id.equals(ID)) {
 
-                return p;
+                    return p;
 
+                }
             }
 
         }
@@ -38,10 +49,12 @@ public class ProjectList {
 
     public List<Project> getByType(String type){
         List<Project> projectsOfType = new ArrayList<>();
-        for (Project p: projects){
-            String ptype = p.getType();
-            if (ptype.equals(type)){
-                projectsOfType.add(p);
+        for (Project p: pjs){
+            if (p!=null) {
+                String ptype = p.getType();
+                if (ptype.equals(type)) {
+                    projectsOfType.add(p);
+                }
             }
         }
         return projectsOfType;
@@ -52,10 +65,12 @@ public class ProjectList {
 
         if (min > max) System.out.println("Invalid Range!");
 
-        for(Project p: projects){
-            double budget = p.getBudget();
-            if (budget >= min && budget <=max)
-                filtered.add(p);
+        for(Project p: pjs){
+            if (p!=null) {
+                double budget = p.getBudget();
+                if (budget >= min && budget <= max)
+                    filtered.add(p);
+            }
         }
 
         if (filtered.isEmpty()) {
@@ -65,31 +80,15 @@ public class ProjectList {
         return filtered;
     }
 
-    public void addTask(Task task, String projectId){
-        Project prj = getByID(projectId);
-
-        prj.addTask(task);
-    }
-
-
-    public List<Task> getTasks(String projectID){
-        // get all tasks associated with a project
-        Project prj = getByID(projectID);
-        List<Task> t = prj.getTasks();
-        if (t.isEmpty()){
-            System.out.println("No tasks in Project");
-            return null;
-        }
-        return t;
-
-    }
 
     public List<Task> getAllTasks(){
         // get all tasks
         List<Task> allTasks = new ArrayList<>();
 
-        for (Project p : projects){
-            allTasks.addAll(p.getTasks());
+        for (Project p : pjs){
+            if (p!=null) {
+                allTasks.addAll(p.getTasks());
+            }
         }
         return allTasks;
     }
@@ -98,31 +97,12 @@ public class ProjectList {
         List<Task> allTasks = getAllTasks();
 
         for (Task t: allTasks){
-            if (t.getID().equals(taskID)){
+            if (t!=null && t.getID().equals(taskID)){
                 return t;
             }
         }
 
         return null;
     }
-
-    public List<Task> getTasksByPriority(Priority priority){
-        List<Task> prtasks = new ArrayList<>();
-        for (Project p : projects){
-            List<Task> tasks = p.getTasks();
-
-            for (Task t : tasks){
-                if (t.getPriority() == priority){
-                    prtasks.add(t);
-                }
-            }
-        }
-
-        return prtasks;
-    }
-
-
-
-
 
 }

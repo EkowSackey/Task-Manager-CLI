@@ -96,15 +96,17 @@ public class ProjectService {
         List<String> ids = new ArrayList<>();
 
         for (Project p: allProjects){
-            ids.add(p.getID());
-            System.out.printf("%s       |",p.getID());
-            System.out.printf("  %s     |", p.getName());
-            System.out.printf("  %s     |", p.getDescription());
-            System.out.printf("  %s     |", p.getType());
-            System.out.printf("  %s     |", p.getDescription());
-            System.out.printf("  %d     |", p.getTeamSize());
-            System.out.printf("  %.2f   |", p.getBudget());
-            System.out.println("\n");
+            if (p != null) {
+                ids.add(p.getID());
+                System.out.printf("%s       |", p.getID());
+                System.out.printf("  %s     |", p.getName());
+                System.out.printf("  %s     |", p.getDescription());
+                System.out.printf("  %s     |", p.getType());
+                System.out.printf("  %s     |", p.getDescription());
+                System.out.printf("  %d     |", p.getTeamSize());
+                System.out.printf("  %.2f   |", p.getBudget());
+                System.out.println("\n");
+            }
 
         }
 

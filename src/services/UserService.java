@@ -1,8 +1,6 @@
 package services;
 
-import models.Role;
-import models.User;
-import models.UserList;
+import models.*;
 
 import java.util.Scanner;
 
@@ -12,8 +10,8 @@ public class UserService {
     public static User u = null;
 
     public static void seedUsers(){
-        User ekow = new User("ekow", 121202, Role.ADMIN);
-        User saki = new User("saki", 121212, Role.REGULAR_USER);
+        User ekow = new AdminUser("ekow", 121202);
+        User saki = new RegularUser("saki", 121212);
 
 
 
