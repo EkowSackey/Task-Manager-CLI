@@ -1,5 +1,6 @@
 package main.services;
 
+import main.exceptions.InvalidRangeException;
 import main.exceptions.ProjectNotFoundException;
 import main.exceptions.TaskNotFoundException;
 import main.models.*;
@@ -121,10 +122,16 @@ public final class MenuService {
                 case 4 -> {
                     double min = Input.readDouble("Min budget: ");
                     double max = Input.readDouble("Max budget: ");
-                    var projects = projectService.searchByRange(min, max);
-                    Printer.printBanner(String.format("*Projects in range $%.2f and $%.2f*", min, max));
-                    renderProjects(projects);
-                    pickProjectDetails(projects);
+                    List<Project> projects = null;
+                    try {
+                        projects = projectService.searchByRange(min, max);
+                        Printer.printBanner(String.format("*Projects in range $%.2f and $%.2f*", min, max));
+                        renderProjects(projects);
+                        pickProjectDetails(projects);
+                    } catch (InvalidRangeException e) {
+                        Printer.printError("Invalid range! Try again.");
+                    }
+
                 }
                 case 5 -> createSoftwareProject();
                 case 6 -> createHardwareProject();
